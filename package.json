@@ -1,0 +1,51 @@
+{
+  "name": "oddestack",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/unit/*.test.ts",
+    "test:e2e": "playwright test --project=edge",
+    "test:browsers": "playwright test",
+    "test:database": "tsx --test tests/integration/*.test.ts",
+    "db:migrate": "tsx scripts/database.ts migrate",
+    "db:status": "tsx scripts/database.ts status",
+    "db:notify": "tsx scripts/database.ts notify",
+    "db:retention": "tsx scripts/database.ts retention",
+    "package:standalone": "node scripts/package-standalone.mjs",
+    "launch:check": "tsx scripts/launch-check.ts",
+    "format": "prettier --write src tests scripts *.json *.ts *.mjs",
+    "format:check": "prettier --check src tests scripts *.json *.ts *.mjs",
+    "audit:site": "node scripts/audit-site.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/manrope": "5.3.0",
+    "framer-motion": "13.4.0",
+    "lucide-react": "1.47.0",
+    "next": "16.3.5",
+    "pg": "8.23.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.63.0",
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "22.20.4",
+    "@types/pg": "8.23.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.3.5",
+    "lighthouse": "12.8.2",
+    "prettier": "3.9.8",
+    "tailwindcss": "4.3.3",
+    "tsx": "4.23.13",
+    "typescript": "5.9.3"
+  }
+}

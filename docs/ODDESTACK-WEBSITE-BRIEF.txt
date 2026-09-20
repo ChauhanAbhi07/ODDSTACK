@@ -1,0 +1,1826 @@
+You are a senior product designer, brand strategist, conversion copywriter and full-stack frontend engineer.
+
+Your task is to DESIGN AND IMPLEMENT a complete, production-quality website for a new Gen-Z, AI-first, multidisciplinary business transformation company called:
+
+ODDESTACK
+
+Do not create a generic digital agency template.
+
+The website must feel like a modern technology company, creative studio, AI company and business transformation partner merged into one brand.
+
+==================================================
+1. UNDERSTAND THE BUSINESS FIRST
+==================================================
+
+ODDESTACK is NOT simply:
+
+- a digital marketing agency
+- an IT outsourcing company
+- a software development company
+- an AI agency
+- a creative agency
+
+It combines all of these capabilities into one integrated team.
+
+The core idea:
+
+Businesses normally hire one agency for branding, another for marketing, another for software, another for ERP, another for analytics, another for AI automation and sometimes another operational team.
+
+ODDESTACK combines these capabilities into ONE STACK.
+
+Hence the name:
+
+ODDESTACK
+
+An unusual combination of specialists that helps businesses:
+
+BUILD
+GROW
+AUTOMATE
+OPERATE
+ANALYZE
+
+The company should be positioned as:
+
+"An integrated business growth, technology and intelligence company."
+
+Alternative descriptor:
+
+"Technology × Growth × Intelligence"
+
+Do NOT repeatedly call ODDESTACK a "digital marketing agency."
+
+Use terms such as:
+
+- Growth & Transformation Company
+- Integrated Digital Partner
+- Business Technology Partner
+- AI-Powered Growth Partner
+- Business Transformation Studio
+- Integrated Growth Stack
+
+depending on context.
+
+==================================================
+2. CORE BRAND IDEA
+==================================================
+
+The underlying brand idea should be:
+
+"Why hire five different companies when you can build one better stack?"
+
+ODDESTACK brings together:
+
+Strategy
+Technology
+AI
+Design
+Marketing
+Content
+Commerce
+ERP
+Operations
+Data
+Finance
+
+into one multidisciplinary team.
+
+Possible hero messaging:
+
+OPTION A
+
+Your business doesn't need another agency.
+It needs a better stack.
+
+Technology. AI. Creative. Growth. Commerce. Operations.
+One team built to move businesses forward.
+
+[Build Your Stack]
+[Explore What We Do]
+
+
+OPTION B
+
+Different skills.
+One unfair advantage.
+
+We combine AI, software, design, marketing, commerce and business operations into one integrated growth stack.
+
+[Let's Build]
+[See The Stack]
+
+
+OPTION C
+
+One team.
+An oddly powerful stack.
+
+Build. Grow. Automate. Operate.
+
+Use whichever concept creates the strongest visual composition.
+
+Do NOT make the copy excessively corporate.
+
+Language should be:
+
+- confident
+- intelligent
+- short
+- conversational
+- Gen-Z aware
+- slightly playful
+- premium
+- business-focused
+
+Avoid jargon-filled sentences.
+
+==================================================
+3. BRAND PERSONALITY
+==================================================
+
+ODDESTACK should feel:
+
+20% rebellious
+20% creative
+25% technology
+20% premium
+15% playful
+
+Think of the confidence and simplicity of brands like:
+
+Notion
+Linear
+Vercel
+Stripe
+CRED
+Nothing
+Superside
+Framer
+
+But DO NOT copy their layouts, logos, text or assets.
+
+Use them only as quality references.
+
+The final website must have an original ODDESTACK identity.
+
+==================================================
+4. VISUAL DIRECTION
+==================================================
+
+Create a premium Gen-Z visual language.
+
+Preferred overall style:
+
+- dark-first interface
+- near-black / charcoal backgrounds
+- warm off-white typography
+- one distinctive electric accent
+- occasional vibrant gradients
+- oversized typography
+- editorial whitespace
+- glass / translucent UI used sparingly
+- rounded but not overly bubbly components
+- interactive cards
+- subtle grid/noise textures
+- dynamic motion
+- high contrast
+- sophisticated typography
+
+Do not turn everything into gradient cards.
+
+Do not create the standard purple-gradient AI website.
+
+The visual identity should feel ownable.
+
+Suggested palette direction:
+
+Background:
+#0A0A0A / #0D0D0D
+
+Primary text:
+#F4F2EC
+
+Secondary:
+muted grey
+
+Accent:
+experiment with acid lime / electric yellow-green
+
+Example:
+#C7FF3D
+
+Secondary accent may occasionally use:
+electric violet / cobalt
+
+But keep the visual system controlled.
+
+==================================================
+5. LOGO / WORDMARK
+==================================================
+
+Initially create a typography-based wordmark:
+
+ODDESTACK
+
+Experiment visually with:
+
+ODD/STACK
+ODDESTACK_
+ODD.STACK
+ODDESTACK™
+
+But use "ODDESTACK" as the official brand name.
+
+Create a simple temporary symbol derived from:
+
+O + S
+stacked blocks
+offset layers
+or an intentionally "odd" grid
+
+Do NOT spend time creating a complicated logo.
+
+Make the header wordmark strong enough to work alone.
+
+==================================================
+6. INFORMATION ARCHITECTURE
+==================================================
+
+Primary navigation:
+
+Home
+What We Do
+Solutions
+Industries
+Work
+Team
+Insights
+Contact
+
+Right-side CTA:
+
+Build Your Stack
+
+Do not put 12 service items directly into the navbar.
+
+==================================================
+7. HOMEPAGE STRUCTURE
+==================================================
+
+Build a rich homepage with the following sections.
+
+------------------------------------------
+SECTION 1 — NAVIGATION
+------------------------------------------
+
+Sticky transparent navigation.
+
+On scroll:
+background becomes slightly opaque / blurred.
+
+Logo left.
+
+Navigation middle/right.
+
+CTA:
+Build Your Stack
+
+Mobile:
+premium fullscreen navigation.
+
+------------------------------------------
+SECTION 2 — HERO
+------------------------------------------
+
+Full viewport or near-full viewport.
+
+Large animated headline.
+
+Create an interactive visual representing the ODDESTACK ecosystem.
+
+Potential visual:
+
+central ODDESTACK core
+
+orbiting / floating capability chips:
+
+AI
+Apps
+ERP
+Growth
+Design
+Data
+Commerce
+Content
+Automation
+
+As pointer moves, cards should react subtly.
+
+Do not use heavy 3D if it hurts performance.
+
+Use CSS / SVG / Framer Motion wherever possible.
+
+Include 2 CTAs.
+
+Primary:
+Build Your Stack
+
+Secondary:
+Explore Capabilities
+
+Include a small statement:
+
+AI × Technology × Creative × Growth × Operations
+
+------------------------------------------
+SECTION 3 — THE PROBLEM
+------------------------------------------
+
+Headline:
+
+Too many vendors.
+Not enough momentum.
+
+Visual comparison:
+
+OLD WAY
+
+Creative Agency
+Marketing Agency
+Software Company
+ERP Vendor
+AI Consultant
+Analytics Team
+
+multiple arrows / disconnected systems
+
+VS
+
+ODDESTACK
+
+One Strategy
+One Team
+One Stack
+
+Make this interactive.
+
+As the user scrolls, fragmented cards should visually converge into the ODDESTACK stack.
+
+------------------------------------------
+SECTION 4 — INTERACTIVE STACK BUILDER
+------------------------------------------
+
+This is one of the most important sections.
+
+Title:
+
+What's in your stack?
+
+Display capability blocks:
+
+AI & Automation
+Technology
+Mobile
+ERP & Business Systems
+Design
+Growth
+Content
+Commerce
+Data
+Operations
+
+On clicking a capability, expand it and show services.
+
+AI & AUTOMATION
+
+- AI Voice Agents
+- AI Chatbots
+- Agentic AI
+- RAG Systems
+- Business Process Automation
+- AI Workflow Orchestration
+- LLM Integrations
+- WhatsApp Automation
+- Intelligent Customer Support
+- API-driven AI agents
+
+TECHNOLOGY
+
+- Custom Web Applications
+- SaaS Platforms
+- Full Stack Development
+- Customer Portals
+- Internal Tools
+- REST APIs
+- Microservices
+- API Integrations
+- Cloud Deployment
+- DevOps
+- System Modernization
+
+MOBILE
+
+- React Native
+- Flutter
+- Android
+- iOS
+- Enterprise Field Apps
+- Consumer Apps
+- Fintech Apps
+- Commerce Apps
+- API-connected applications
+
+ERP & BUSINESS SYSTEMS
+
+- ERP Implementation
+- ERPNext / Frappe
+- CRM
+- Field Service Management
+- Asset Management
+- Ticketing
+- Workflow Automation
+- SAP Integrations
+- Role-based Business Systems
+- Custom Enterprise Modules
+
+UI/UX & PRODUCT
+
+- Product Strategy
+- UI/UX
+- Design Systems
+- Web Design
+- App Design
+- Prototyping
+- User Journeys
+- Conversion UX
+- Brand Identity
+
+GROWTH
+
+- Performance Marketing
+- Social Media
+- SEO
+- Growth Strategy
+- Paid Acquisition
+- Google Ads
+- Meta Ads
+- Conversion Optimization
+- Campaign Strategy
+
+CONTENT & CREATIVE
+
+- Content Strategy
+- Reels
+- Short-form Video
+- Video Editing
+- Brand Content
+- Social Creatives
+- Motion Graphics
+- Storytelling
+- Campaign Creative
+
+COMMERCE
+
+- E-commerce Development
+- Shopify
+- Custom Commerce
+- Marketplace Management
+- Catalog Management
+- Ecommerce Operations
+- Conversion Optimization
+- Customer Journey Automation
+- Commerce Analytics
+
+DATA & INTELLIGENCE
+
+- Power BI
+- Dashboards
+- KPI Tracking
+- Data Visualization
+- Business Intelligence
+- Customer Analytics
+- Marketing Analytics
+- Funnel Analytics
+- Reporting Automation
+
+BUSINESS OPERATIONS
+
+- Finance Process Support
+- Accounting Workflow Support
+- MIS & Reporting
+- ERP-backed Operations
+- Business Process Automation
+- Operational Dashboards
+- Commerce Operations
+- Managed Digital Operations
+
+Do NOT present finance/accounting as regulated financial advice.
+
+------------------------------------------
+SECTION 5 — SMART SOLUTION FINDER
+------------------------------------------
+
+Make the website feel intelligent.
+
+Create an interactive component:
+
+"Tell us what's slowing you down."
+
+Step 1:
+Select industry
+
+- Real Estate
+- Automotive
+- D2C / Ecommerce
+- Healthcare / Clinics
+- Education
+- Field Service
+- Consumer Products
+- Fintech
+- Professional Services
+- Other
+
+Step 2:
+Select goal
+
+- Get more leads
+- Improve conversions
+- Automate customer support
+- Build an app
+- Modernize ERP
+- Automate operations
+- Improve customer experience
+- Launch ecommerce
+- Understand our data
+- Build AI solutions
+
+Step 3:
+Select current challenge
+
+Step 4:
+Generate a recommended "ODDESTACK"
+
+Example output:
+
+REAL ESTATE GROWTH STACK
+
+Landing Experience
++
+Performance Marketing
++
+CRM
++
+WhatsApp Automation
++
+AI Voice Qualification
++
+Analytics
+
+CTA:
+Let's Build This Stack
+
+This recommendation can be deterministic frontend logic.
+No LLM API is required for v1.
+
+Design this component beautifully.
+
+------------------------------------------
+SECTION 6 — SOLUTIONS BY OUTCOME
+------------------------------------------
+
+Do NOT only organize the site around technical services.
+
+Show business outcomes.
+
+Cards:
+
+Generate More Demand
+Convert More Leads
+Automate Customer Conversations
+Modernize Operations
+Build Digital Products
+Scale Ecommerce
+Understand Your Business
+Transform Customer Experience
+
+Each opens a detailed drawer/modal/page.
+
+Example:
+
+Convert More Leads
+
+We combine:
+
+Performance Marketing
+Landing Pages
+CRM
+WhatsApp
+AI Voice
+Lead Qualification
+Follow-up Automation
+Analytics
+
+This is how ODDESTACK should sell.
+
+We solve business problems first.
+Technology comes second.
+
+------------------------------------------
+SECTION 7 — INDUSTRY SOLUTIONS
+------------------------------------------
+
+Create interactive industry cards.
+
+Priority industries:
+
+Automotive
+Real Estate
+D2C & Ecommerce
+Healthcare & Clinics
+Education
+Field Service & Consumer Appliances
+Fintech
+Growing SMEs
+
+Examples:
+
+AUTOMOTIVE
+
+Lead generation
+Dealer websites
+Service booking
+CRM
+AI Voice
+WhatsApp
+ERP integration
+Customer retention
+Analytics
+
+
+REAL ESTATE
+
+Landing pages
+Ads
+Lead qualification
+CRM
+AI calling
+WhatsApp
+Site-visit booking
+Sales automation
+Dashboards
+
+
+D2C & ECOMMERCE
+
+Brand design
+Shopify
+Content
+Performance Marketing
+Marketplace management
+AI customer support
+Retention automation
+Commerce analytics
+
+
+HEALTHCARE
+
+Appointment acquisition
+Digital presence
+Booking experience
+Patient communication
+AI calling
+WhatsApp
+CRM
+Analytics
+
+
+FIELD SERVICE
+
+Customer support
+Ticketing
+Technician apps
+FSM
+Route optimization
+Asset management
+ERP
+AI support
+Analytics
+
+------------------------------------------
+SECTION 8 — EXPERIENCE / PROOF
+------------------------------------------
+
+IMPORTANT:
+
+Do NOT fabricate ODDESTACK customers.
+
+Do NOT claim past employers' or individuals' projects as ODDESTACK client work.
+
+Instead title this section:
+
+"Experience behind the stack"
+
+or
+
+"Built by people who've shipped real things."
+
+Use collective team experience.
+
+Possible proof points based on the team's background:
+
+250+ enterprise APIs engineered
+12+ production web applications
+100+ production mobile screens
+50+ short-form videos produced
+30+ concurrent AI voice sessions supported
+Enterprise ERP / SAP integration experience
+Mobile, fintech, FSM and ecommerce product experience
+
+Clearly label these as:
+
+"Collective team experience"
+
+NOT:
+
+"ODDESTACK has delivered..."
+
+Use animated counters carefully.
+
+------------------------------------------
+SECTION 9 — SELECTED EXPERIENCE / CASE-STUDY STYLE
+------------------------------------------
+
+Create anonymized case studies based on team experience.
+
+DO NOT expose employer names, personal names, confidential information or unapproved client names.
+
+CASE STUDY 01
+
+AI Voice & Agentic Automation Platform
+
+Challenge:
+Businesses need AI agents capable of real-time conversations and business actions.
+
+Stack:
+Voice AI
+LLMs
+STT/TTS
+RAG
+API orchestration
+WebSockets
+Cloud
+Workflow automation
+
+Show:
+architecture visual
+problem
+solution
+capabilities
+outcome
+
+
+CASE STUDY 02
+
+Enterprise Asset & Field Service Platform
+
+Stack:
+ERP
+Mobile
+REST APIs
+SAP Integration
+Asset Management
+Ticketing
+Notifications
+Field Operations
+
+
+CASE STUDY 03
+
+Intelligent Field Workforce Management
+
+Stack:
+Backend
+Scheduling
+Route Optimization
+Maps
+FSM
+Attendance
+Role-based Security
+
+
+CASE STUDY 04
+
+Fintech Mobile Experience
+
+Stack:
+React Native
+TypeScript
+API Integration
+Analytics
+Design Systems
+Financial Planning UX
+
+
+CASE STUDY 05
+
+Modern Ecommerce & Logistics Platforms
+
+Stack:
+Next.js
+MERN
+Commerce
+Admin Dashboard
+APIs
+SEO
+Performance
+
+
+CASE STUDY 06
+
+Content Engine for Social Brands
+
+Stack:
+Short-form Video
+Reels
+Motion
+Editing
+Campaign Content
+Social-first Storytelling
+
+
+CASE STUDY 07
+
+Business Intelligence Dashboards
+
+Stack:
+Power BI
+Excel
+SQL
+Data Transformation
+KPIs
+Business Insights
+
+Create visually different case-study cards.
+
+Do not make every card identical.
+
+------------------------------------------
+SECTION 10 — TEAM
+------------------------------------------
+
+Section heading:
+
+Meet the humans behind the stack.
+
+Use pseudonyms.
+
+DO NOT use the actual names from the provided resumes.
+
+Do not expose:
+
+phone numbers
+personal email addresses
+home addresses
+personal LinkedIn URLs
+
+Use these pseudonymized profiles:
+
+1.
+Name:
+Aarav Mehta
+
+Role:
+Frontend & Mobile Engineer
+
+Specialties:
+React Native
+React
+TypeScript
+Design Systems
+Mobile Performance
+API Integration
+Analytics
+
+Profile concept:
+Product-focused mobile engineer experienced in building large customer-facing mobile experiences across fintech and digital products.
+
+
+2.
+Name:
+Kabir Ansari
+
+Role:
+Lead Mobile & AI Integration Engineer
+
+Specialties:
+Flutter
+Android
+Kotlin
+FastAPI
+RAG
+LangChain
+LLM Integration
+Vector Databases
+
+Profile concept:
+Cross-platform mobile engineer combining app development with Generative AI, intelligent search and conversational experiences.
+
+
+3.
+Name:
+Rohan Malik
+
+Role:
+Full-Stack Engineer
+
+Specialties:
+Next.js
+React
+Node.js
+Express
+MongoDB
+MySQL
+Ecommerce
+AI Integrations
+
+Profile concept:
+Full-stack engineer focused on scalable web platforms, APIs, ecommerce and modern business applications.
+
+
+4.
+Name:
+Dev Arora
+
+Role:
+Data & BI Analyst
+
+Specialties:
+Power BI
+Excel
+SQL
+Python
+Data Visualization
+Dashboards
+Business Intelligence
+
+Profile concept:
+Transforms operational and commercial data into useful dashboards, KPIs and decision-support insights.
+
+
+5.
+Name:
+Arjun Sinha
+
+Role:
+Enterprise Backend & ERP Engineer
+
+Specialties:
+.NET
+Java
+Python
+ERPNext
+Frappe
+PostgreSQL
+Microservices
+SAP/API Integration
+FSM
+Optimization
+
+Profile concept:
+Backend specialist experienced in enterprise integrations, ERP workflows, field-service systems, APIs and complex operational platforms.
+
+
+6.
+Name:
+Vihaan Kapoor
+
+Role:
+Video & Content Creator
+
+Specialties:
+Premiere Pro
+After Effects
+Reels
+Short-form Content
+Motion Graphics
+Brand Storytelling
+
+Profile concept:
+Social-first creative focused on high-retention short-form video, campaigns and visual storytelling.
+
+
+7.
+Name:
+Reyansh Khanna
+
+Role:
+AI & Automation Engineer
+
+Specialties:
+Agentic AI
+Voice AI
+LLMs
+RAG
+FastAPI
+WebSockets
+AI Agents
+Workflow Orchestration
+Cloud
+API Automation
+
+Profile concept:
+AI engineer building voice agents, multi-agent systems, RAG pipelines and API-driven automation for real business workflows.
+
+
+Add these additional placeholder team roles because ODDESTACK has broader capabilities.
+
+IMPORTANT:
+These are PLACEHOLDER profiles until real team information is supplied.
+Do not invent employer history, awards, years of experience or client achievements.
+
+8.
+Name:
+Mira Shah
+Role:
+UI/UX & Brand Designer
+
+Tags:
+Figma
+UX Research
+Design Systems
+Brand Identity
+Product Design
+
+
+9.
+Name:
+Naina Kapoor
+Role:
+Social & Growth Strategist
+
+Tags:
+Social Strategy
+Content
+Campaigns
+Community
+Growth
+
+
+10.
+Name:
+Ishaan Rao
+Role:
+Ecommerce & Marketplace Manager
+
+Tags:
+Shopify
+Marketplace Operations
+Catalog
+Commerce Strategy
+Conversion
+
+
+11.
+Name:
+Tara Bansal
+Role:
+Finance & Business Operations
+
+Tags:
+Business Reporting
+MIS
+Accounting Operations
+Process Design
+ERP Workflows
+
+
+12.
+Name:
+Advait Jain
+Role:
+ERP & Business Systems Consultant
+
+Tags:
+ERP
+Workflow Design
+Business Process
+CRM
+Automation
+
+Do not use fake photographic headshots.
+
+Use:
+stylized monochrome portraits,
+abstract avatars,
+initial-based graphics,
+or geometric profile artwork.
+
+The design should remain credible.
+
+------------------------------------------
+SECTION 11 — HOW ODDESTACK WORKS
+------------------------------------------
+
+Create a scroll-based process:
+
+01
+UNDERSTAND
+
+We start with the business problem, not a service menu.
+
+02
+DESIGN THE STACK
+
+We assemble the right combination of strategy, technology, creative and automation.
+
+03
+BUILD
+
+Our specialists work as one integrated delivery team.
+
+04
+LAUNCH
+
+Products, campaigns and workflows go live.
+
+05
+LEARN
+
+Data tells us what is working.
+
+06
+SCALE
+
+We continuously improve the stack.
+
+------------------------------------------
+SECTION 12 — ONE TEAM VS MANY VENDORS
+------------------------------------------
+
+Create an interactive comparison table.
+
+Traditional approach:
+
+Marketing Agency
+Development Company
+ERP Consultant
+AI Vendor
+Designer
+Analytics Team
+
+vs
+
+ODDESTACK
+
+One strategy
+One delivery layer
+Shared context
+Integrated systems
+Unified analytics
+Faster iteration
+
+Do not make unsupported quantified claims.
+
+------------------------------------------
+SECTION 13 — ENGAGEMENT MODELS
+------------------------------------------
+
+Instead of immediately showing cheap price packages, use:
+
+PROJECT
+
+For:
+websites, applications, ERP modules, AI projects, ecommerce launches
+
+GROWTH RETAINER
+
+For:
+marketing, content, SEO, ecommerce growth and optimization
+
+MANAGED STACK
+
+For:
+companies wanting an extended multidisciplinary digital team
+
+TRANSFORMATION
+
+For:
+ERP, automation, AI, integrations and end-to-end operational modernization
+
+CTA:
+
+Discuss Your Stack
+
+Do not display fabricated prices initially.
+
+Make pricing CMS/config-ready so prices can be enabled later.
+
+------------------------------------------
+SECTION 14 — INSIGHTS
+------------------------------------------
+
+Create a modern article section.
+
+Categories:
+
+AI & Automation
+Growth
+Technology
+Ecommerce
+Design
+Data
+Operations
+
+Example titles:
+
+Why Your Business Doesn't Need Another SaaS Tool
+The Rise of AI Voice in Customer Operations
+ERP Isn't Boring When It Actually Works
+What Happens When Marketing and Product Teams Share the Same Stack?
+Automation Before AI: What Businesses Get Wrong
+Your Ecommerce Store Is Not Your Ecommerce Strategy
+
+Use mock article data.
+
+------------------------------------------
+SECTION 15 — FINAL CTA
+------------------------------------------
+
+Large dramatic ending.
+
+Headline:
+
+Let's make your stack a little odd.
+
+Subtext:
+
+Tell us what you're trying to build, fix, automate or grow.
+We'll figure out the stack.
+
+CTA:
+
+Build Your Stack
+
+Secondary:
+
+hello@oddestack.com
+
+Email must be configurable.
+
+------------------------------------------
+SECTION 16 — CONTACT / PROJECT WIZARD
+------------------------------------------
+
+Do not create only a boring contact form.
+
+Create a multi-step project wizard.
+
+Questions:
+
+1. What are you trying to do?
+
+Build Something
+Grow Something
+Automate Something
+Fix Something
+Not Sure Yet
+
+2. What capabilities might you need?
+
+AI
+Marketing
+Web
+Mobile
+ERP
+Commerce
+Design
+Content
+Data
+Operations
+
+3. Industry
+
+4. Company size
+
+5. Estimated budget
+
+6. Timeline
+
+7. Project description
+
+8. Name
+9. Company
+10. Email
+11. Phone / WhatsApp
+
+Final message:
+
+"Nice. We've got the brief — even if you don't."
+
+Store submission through an API endpoint.
+
+For development:
+provide mocked/local handling.
+
+Architecture should make it easy to later integrate:
+
+CRM
+Email
+WhatsApp
+HubSpot
+Zoho
+ERPNext
+or custom APIs.
+
+==================================================
+8. WEBSITE PAGES
+==================================================
+
+Implement:
+
+/
+Homepage
+
+/services
+Capabilities overview
+
+/services/[slug]
+Individual capability pages
+
+/solutions
+Outcome-based solutions
+
+/industries
+Industry overview
+
+/industries/[slug]
+Industry-specific landing pages
+
+/work
+Experience / work
+
+/work/[slug]
+Case studies
+
+/team
+Team
+
+/insights
+Articles
+
+/insights/[slug]
+Article detail
+
+/about
+Brand story
+
+/contact
+Interactive project builder
+
+/privacy
+Privacy Policy placeholder
+
+/terms
+Terms placeholder
+
+==================================================
+9. TECHNOLOGY
+==================================================
+
+Use:
+
+Next.js
+App Router
+TypeScript
+Tailwind CSS
+Framer Motion
+Lucide icons
+
+Use shadcn/ui only where useful.
+
+Do not make the site look like default shadcn.
+
+Create a custom design system.
+
+Use Server Components wherever appropriate.
+
+Use Client Components only for interactive sections.
+
+Avoid unnecessary dependencies.
+
+No jQuery.
+
+No bloated page builders.
+
+No WordPress.
+
+==================================================
+10. CONTENT ARCHITECTURE
+==================================================
+
+Do NOT hardcode all content inside React components.
+
+Create structured data files for:
+
+services
+solutions
+industries
+team
+case studies
+articles
+navigation
+stats
+
+For example:
+
+/data/services.ts
+/data/team.ts
+/data/industries.ts
+
+or use an equivalent clean architecture.
+
+Make future CMS migration easy.
+
+==================================================
+11. INTERACTION DESIGN
+==================================================
+
+The site should have thoughtful micro-interactions.
+
+Include:
+
+smooth section reveals
+magnetic CTA effect — subtle
+hover transformations
+animated counters
+interactive stack cards
+scroll-linked transformations
+cursor-responsive hero elements
+industry switching
+smart solution generator
+animated marquee
+page transitions
+responsive menu animation
+
+Do not over-animate.
+
+Animations should communicate hierarchy.
+
+Respect:
+
+prefers-reduced-motion.
+
+Target smooth 60fps interactions.
+
+==================================================
+12. MOBILE EXPERIENCE
+==================================================
+
+Mobile must NOT feel like a compressed desktop site.
+
+Design mobile deliberately.
+
+Particularly optimize:
+
+hero
+navigation
+stack builder
+industry selector
+project wizard
+team
+case studies
+
+Large touch targets.
+
+Avoid horizontal overflow.
+
+Test at:
+
+320
+375
+390
+430
+768
+1024
+1440
+1920
+
+==================================================
+13. ACCESSIBILITY
+==================================================
+
+Use:
+
+semantic HTML
+proper heading hierarchy
+keyboard navigation
+visible focus states
+ARIA where necessary
+accessible form labels
+contrast compliance
+reduced motion support
+
+Target WCAG AA.
+
+==================================================
+14. PERFORMANCE
+==================================================
+
+Target Lighthouse:
+
+Performance > 90
+Accessibility > 95
+Best Practices > 95
+SEO > 95
+
+Use:
+
+next/image
+lazy loading
+code splitting
+optimized fonts
+minimal JavaScript
+dynamic loading when appropriate
+
+Avoid large background videos.
+
+Do not introduce WebGL simply for decoration.
+
+==================================================
+15. SEO
+==================================================
+
+Implement:
+
+metadata
+OpenGraph
+Twitter cards
+canonical URLs
+robots
+sitemap
+structured data
+
+Organization schema.
+
+Service schema where appropriate.
+
+Article schema.
+
+Create metadata around terms such as:
+
+AI automation company
+digital transformation company
+AI development company India
+ERP development
+business automation
+AI voice agents
+custom software development
+growth marketing
+ecommerce management
+mobile app development
+AI consulting
+
+Do NOT keyword stuff.
+
+==================================================
+16. COPYWRITING RULES
+==================================================
+
+NO:
+
+"Welcome to ODDESTACK"
+
+NO:
+
+"We are a leading innovative solutions provider..."
+
+NO:
+
+"We leverage cutting-edge technology..."
+
+NO generic AI-generated corporate language.
+
+Prefer:
+
+"Tell us what's broken."
+
+"One problem. Whatever stack it takes."
+
+"Don't hire another vendor. Fix the system."
+
+"Your business doesn't fit in one service category. Neither do we."
+
+"Build it. Grow it. Automate it."
+
+"We bring the weird mix of people businesses usually hire separately."
+
+Keep paragraphs short.
+
+Use large headline moments.
+
+==================================================
+17. IMPORTANT TRUTH / CREDIBILITY RULES
+==================================================
+
+Never fabricate:
+
+clients
+awards
+testimonials
+revenue
+customer numbers
+years in business
+office locations
+certifications
+
+Do not turn individual team experience into fake ODDESTACK company experience.
+
+If using numbers from collective experience, explicitly label:
+
+"Collective team experience."
+
+Do not expose names from original resumes.
+
+Do not expose:
+
+personal emails
+phone numbers
+addresses
+previous employer details
+
+unless separately approved.
+
+Use anonymized case studies.
+
+==================================================
+18. DESIGN DETAILS
+==================================================
+
+Typography:
+
+Use a premium modern sans serif.
+
+Examples:
+
+Geist
+Inter
+Manrope
+Plus Jakarta Sans
+
+Optionally use an expressive display font for huge headlines.
+
+Keep body typography extremely readable.
+
+Hero headline desktop:
+approx 72–110px depending on layout.
+
+Use fluid clamp typography.
+
+Cards:
+avoid excessive borders.
+
+Use subtle hairlines.
+
+Border radius:
+medium.
+
+Not every section should be a card grid.
+
+Create visual rhythm:
+
+editorial section
+interactive section
+full bleed section
+grid section
+typographic section
+case study section
+
+==================================================
+19. FOOTER
+==================================================
+
+Large branded footer.
+
+ODDESTACK
+
+Technology × Growth × Intelligence
+
+Links:
+
+Capabilities
+Solutions
+Industries
+Work
+Team
+Insights
+Contact
+
+Social placeholders:
+
+LinkedIn
+Instagram
+X
+
+CTA:
+
+Build Your Stack →
+
+Bottom:
+
+© ODDESTACK
+
+Privacy
+Terms
+
+==================================================
+20. EXPECTED CODE QUALITY
+==================================================
+
+Treat this like production software.
+
+Use:
+
+clean TypeScript
+reusable components
+clear folder architecture
+no duplicated UI
+well-typed data structures
+error boundaries where useful
+responsive design tokens
+SEO utilities
+maintainable CSS
+ESLint compliance
+
+Do not leave TODO comments everywhere.
+
+Do not generate half-working sections.
+
+==================================================
+21. DEVELOPMENT PROCESS
+==================================================
+
+Before coding:
+
+1. Inspect the existing repository.
+2. Understand the current framework and dependencies.
+3. Do not unnecessarily replace working project configuration.
+4. Create the visual system first.
+5. Build reusable primitives.
+6. Build homepage sections.
+7. Build internal templates.
+8. Populate structured content.
+9. Implement interactions.
+10. Test responsiveness.
+11. Run build.
+12. Fix TypeScript / lint errors.
+13. Verify links.
+14. Verify mobile.
+15. Optimize performance.
+
+If an existing project exists, preserve functionality unless there is a clear reason to refactor.
+
+==================================================
+22. DELIVERABLE
+==================================================
+
+Deliver a completely functional website.
+
+Not:
+
+screenshots
+Figma-only mockups
+static HTML samples
+
+I want working production-quality code.
+
+At completion provide:
+
+- architecture summary
+- pages created
+- reusable components created
+- interactions implemented
+- responsive considerations
+- SEO implemented
+- instructions to run locally
+- environment variables required
+- items that still require real business information
+
+==================================================
+23. MOST IMPORTANT CREATIVE REQUIREMENT
+==================================================
+
+The finished website must make a visitor think:
+
+"This isn't another agency."
+
+The user should understand within approximately 10 seconds:
+
+ODDESTACK brings together technology, AI, design, growth, commerce, data and operations to solve business problems with one integrated team.
+
+The site should visually communicate the concept of an unconventional but connected "stack."
+
+DO NOT simply clone NEESA or another competitor.
+
+Take inspiration from the confidence, clarity and service presentation of modern agencies, but create a distinct ODDESTACK experience.
+
+Start by inspecting the repository and then implement the entire experience.

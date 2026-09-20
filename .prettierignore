@@ -1,0 +1,6 @@
+package-lock.json
+next-env.d.ts
+.next
+node_modules
+artifacts
+test-results

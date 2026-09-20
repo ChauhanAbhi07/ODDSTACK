@@ -1,0 +1,49 @@
+services:
+  web:
+    build:
+      context: .
+      target: runner
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:?Set the public origin}
+        NEXT_PUBLIC_CONTACT_EMAIL: ${NEXT_PUBLIC_CONTACT_EMAIL:?Set the confirmed inbox}
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      DATABASE_URL: postgresql://oddestack:${POSTGRES_PASSWORD:?Set a database password}@database:5432/oddestack
+      INQUIRY_STORAGE_DRIVER: postgres
+      RATE_LIMIT_SECRET: ${RATE_LIMIT_SECRET:?Set a random 32-character-or-longer secret}
+      TRUST_PROXY: ${TRUST_PROXY:-false}
+    depends_on:
+      database:
+        condition: service_healthy
+    restart: unless-stopped
+  operations:
+    profiles: ["operations"]
+    build:
+      context: .
+      target: operations
+    environment:
+      DATABASE_URL: postgresql://oddestack:${POSTGRES_PASSWORD:?Set a database password}@database:5432/oddestack
+      INQUIRY_NOTIFICATION_WEBHOOK_URL: ${INQUIRY_NOTIFICATION_WEBHOOK_URL:-}
+      INQUIRY_NOTIFICATION_WEBHOOK_SECRET: ${INQUIRY_NOTIFICATION_WEBHOOK_SECRET:-}
+      INQUIRY_RETENTION_DAYS: ${INQUIRY_RETENTION_DAYS:-}
+    depends_on:
+      database:
+        condition: service_healthy
+  database:
+    image: postgres:17-bookworm
+    environment:
+      POSTGRES_DB: oddestack
+      POSTGRES_USER: oddestack
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set a database password}
+    volumes:
+      - enquiry-data:/var/lib/postgresql/data
+      - ./database/001-inquiries.sql:/docker-entrypoint-initdb.d/001-inquiries.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U oddestack -d oddestack"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+volumes:
+  enquiry-data:
