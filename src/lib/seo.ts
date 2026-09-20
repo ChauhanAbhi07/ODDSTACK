@@ -9,20 +9,22 @@ export function metadata(
   return {
     title,
     description,
-    alternates: { canonical: path },
+    alternates: { canonical: `${site.url.replace(/\/$/, "")}${path}` },
     openGraph: {
       title: `${title} — ODDESTACK`,
       description,
-      url: path,
+      url: `${site.url.replace(/\/$/, "")}${path}`,
       siteName: site.name,
       type: "website",
-      images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
+      images: [
+        { url: `${site.url}/${site.socialImage}`, width: 1200, height: 630 },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ["/opengraph-image"],
+      images: [`${site.url}/${site.socialImage}`],
     },
     ...(draft ? { robots: { index: false, follow: true } } : {}),
   };

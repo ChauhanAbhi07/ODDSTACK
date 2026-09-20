@@ -1,0 +1,17 @@
+services:
+  web:
+    build:
+      context: .
+      target: runner
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:?Set the public origin}
+        NEXT_PUBLIC_CONTACT_EMAIL: ${NEXT_PUBLIC_CONTACT_EMAIL:?Set the confirmed inbox}
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      INQUIRY_STORAGE_DRIVER: email
+      RESEND_API_KEY: ${RESEND_API_KEY:?Set the email API key}
+      INQUIRY_EMAIL_FROM: ${INQUIRY_EMAIL_FROM:?Set a verified sender}
+      INQUIRY_EMAIL_TO: ${INQUIRY_EMAIL_TO:?Set the receiving inbox}
+      TRUST_PROXY: ${TRUST_PROXY:-false}
+    restart: unless-stopped

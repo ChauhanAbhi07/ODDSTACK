@@ -1,5 +1,9 @@
 export const site = {
   name: "ODDESTACK",
+  socialImage:
+    process.env.NEXT_PUBLIC_STATIC_SITE === "true"
+      ? "opengraph-image.png"
+      : "opengraph-image",
   url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "hello@oddestack.com",
   description:

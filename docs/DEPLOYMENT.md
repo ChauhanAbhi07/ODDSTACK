@@ -1,5 +1,7 @@
 # Deployment handoff
 
+For the current GitHub Pages request, follow [GITHUB-PAGES.md](GITHUB-PAGES.md). The remaining sections describe the optional full Next.js server deployment for automatic email delivery or database storage later.
+
 The application and deployment code are complete. The owner has confirmed that hosting, domain, inbox/CRM and approved business details are not available yet. No public site or external notification service has been created. This guide describes the prepared path once those inputs exist.
 
 ## Local review
@@ -11,9 +13,36 @@ npm run dev
 
 The complete preview is at `http://localhost:3000`. No accounts, credentials or paid services are required. The local development form writes gitignored records and explicitly says they were not sent to the business.
 
-## Production storage
+## Direct email: one deployment, no database
 
-Two adapters are supported:
+The Next.js frontend and enquiry API run together. Use `INQUIRY_STORAGE_DRIVER=email` to send enquiries through Resend without PostgreSQL, a CRM, a queue worker or a separate backend host.
+
+Set these server-only values in `.env.local` for local testing or in your hosting project's runtime environment:
+
+```dotenv
+INQUIRY_STORAGE_DRIVER=email
+RESEND_API_KEY=your-api-key
+INQUIRY_EMAIL_FROM=enquiries@your-verified-domain.com
+INQUIRY_EMAIL_TO=your-inbox@example.com
+```
+
+Use a plain email address on a verified sending domain for FROM and your receiving mailbox for TO. Set `NEXT_PUBLIC_CONTACT_EMAIL` to the confirmed public contact address too. `.env.example` is only a template. Never prefix the API key with `NEXT_PUBLIC_`.
+
+The endpoint validates the form and submits a plain-text email containing all enquiry fields. Reply-To is the visitor's validated email; the recipient always comes from server configuration. The success message confirms queuing for email delivery, not arrival in the inbox. Check provider delivery/bounce records and spam filtering during the live smoke test. Provider failures leave the form answers available for retry. No local or database backup is written in email mode.
+
+The adapter follows the [Resend send-email API](https://resend.com/docs/api-reference/emails/send-email). Stable [idempotency keys](https://resend.com/docs/dashboard/emails/idempotency-keys) prevent duplicate sends within the provider's 24-hour window; retries after that can send again. Existing request limits are per application process, not shared across instances; configure the host's rate-limiting controls if scaling out.
+
+Use the standalone Node deployment below for a single app process. If deploying with Docker, use the email-only Compose file (it starts no database):
+
+```sh
+docker compose -f compose.email.yaml --env-file .env.production.local up --build -d
+```
+
+This requires the public site URL and public contact email as build values plus the three email settings above at runtime. Put the app behind HTTPS. Email sending may have provider charges depending on usage; no separate backend or database subscription is required by this setup. No external email has been sent during implementation; tests mock the provider. Real delivery still requires account configuration and a live check.
+
+## Optional production storage
+
+Two database/storage alternatives remain available if needed later:
 
 - `postgres`: application-managed durable storage, database-wide rate limits and a transactional notification queue.
 - `webhook`: an existing service that implements the durable-storage and idempotency contract described in the README.

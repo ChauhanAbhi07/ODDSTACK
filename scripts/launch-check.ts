@@ -1,4 +1,5 @@
 import { loadEnvConfig } from "@next/env";
+import { emailConfig } from "../src/lib/inquiries/email";
 loadEnvConfig(process.cwd());
 const missing: string[] = [];
 const url = process.env.NEXT_PUBLIC_SITE_URL;
@@ -24,7 +25,15 @@ if (process.env.LEGAL_PAGES_REVIEWED !== "true")
   missing.push(
     "Completed and reviewed privacy/terms pages (LEGAL_PAGES_REVIEWED=true)",
   );
-if (process.env.INQUIRY_STORAGE_DRIVER === "postgres") {
+if (process.env.INQUIRY_STORAGE_DRIVER === "email") {
+  try {
+    emailConfig();
+  } catch {
+    missing.push(
+      "RESEND_API_KEY, verified INQUIRY_EMAIL_FROM and receiving INQUIRY_EMAIL_TO",
+    );
+  }
+} else if (process.env.INQUIRY_STORAGE_DRIVER === "postgres") {
   if (!process.env.DATABASE_URL)
     missing.push("DATABASE_URL and applied database migration");
   if ((process.env.RATE_LIMIT_SECRET?.length || 0) < 32)
@@ -39,8 +48,7 @@ if (process.env.INQUIRY_STORAGE_DRIVER === "postgres") {
 } else if (process.env.INQUIRY_STORAGE_DRIVER === "webhook") {
   if (!process.env.INQUIRY_WEBHOOK_URL || !process.env.INQUIRY_WEBHOOK_SECRET)
     missing.push("Durable enquiry webhook URL and secret");
-} else
-  missing.push("A production enquiry storage driver (postgres or webhook)");
+} else missing.push("A production enquiry driver (email, postgres or webhook)");
 if (missing.length) {
   console.log(
     "Public launch inputs still needed:\n" +
@@ -49,5 +57,5 @@ if (missing.length) {
   process.exitCode = 1;
 } else
   console.log(
-    "Launch configuration is present. Confirm database connectivity, delivery and HTTPS on the actual host before opening the site to visitors.",
+    "Launch configuration is present. Verify enquiry delivery, the selected provider and HTTPS on the actual host before opening the site to visitors.",
   );

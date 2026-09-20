@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:pages": "tsx scripts/build-pages.ts",
+    "preview:pages": "node scripts/preview-pages.mjs",
+    "test:pages": "playwright test --config playwright.pages.config.ts",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",

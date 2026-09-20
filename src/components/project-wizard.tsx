@@ -1,5 +1,6 @@
 "use client";
 import { useId, useRef, useState } from "react";
+import Link from "next/link";
 import { ArrowRight, ArrowLeft, Check, Send } from "lucide-react";
 import { services } from "@/data/services";
 import { finderIndustries } from "@/lib/recommendations";
@@ -66,6 +67,7 @@ export function ProjectWizard({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pending, setPending] = useState(false);
   const [failure, setFailure] = useState("");
+  const [emailDraft, setEmailDraft] = useState("");
   const [receipt, setReceipt] = useState<{ id: string; mode: string } | null>(
     null,
   );
@@ -107,6 +109,31 @@ export function ProjectWizard({
   };
   const submit = async () => {
     if (!validate(true)) return;
+    if (process.env.NEXT_PUBLIC_STATIC_SITE === "true") {
+      setEmailDraft(
+        [
+          "ODDESTACK project enquiry",
+          "",
+          `Name: ${form.name}`,
+          `Company / project: ${form.company}`,
+          `Email: ${form.email}`,
+          `Phone / WhatsApp: ${form.phone || "Not provided"}`,
+          "",
+          `Intent: ${form.intent}`,
+          `Services: ${form.capabilities.map((id) => services.find((s) => s.slug === id)?.title || id).join(", ") || "Not sure yet"}`,
+          `Industry: ${form.industry}`,
+          `Company size: ${form.companySize}`,
+          `Budget: ${form.budget}`,
+          `Timeline: ${form.timeline}`,
+          `Engagement: ${form.engagement || "Not specified"}`,
+          "",
+          "Project description:",
+          form.description,
+        ].join("\n"),
+      );
+      requestAnimationFrame(() => title.current?.focus());
+      return;
+    }
     setPending(true);
     setFailure("");
     const payload = JSON.stringify(form);
@@ -207,7 +234,42 @@ export function ProjectWizard({
   );
   return (
     <div ref={root} className="project-wizard">
-      {receipt ? (
+      {emailDraft ? (
+        <div className="email-draft">
+          <h3 tabIndex={-1} ref={title}>
+            Your brief is ready to email.
+          </h3>
+          <p>
+            Open your email app, review the draft and send it to {site.email}.
+            Nothing has been sent yet.
+          </p>
+          <a
+            className="button"
+            href={`mailto:${site.email}?subject=${encodeURIComponent("ODDESTACK project enquiry")}&body=${encodeURIComponent(emailDraft)}`}
+          >
+            Open email app <Send size={16} aria-hidden="true" />
+          </a>
+          <label htmlFor={`${uid}-email-draft`}>
+            Prefer webmail? Copy your brief below and email it to {site.email}.
+          </label>
+          <textarea
+            id={`${uid}-email-draft`}
+            rows={10}
+            readOnly
+            value={emailDraft}
+            onFocus={(event) => event.target.select()}
+          />
+          <button
+            className="text-link"
+            onClick={() => {
+              setEmailDraft("");
+              requestAnimationFrame(() => title.current?.focus());
+            }}
+          >
+            <ArrowLeft size={16} aria-hidden="true" /> Edit my brief
+          </button>
+        </div>
+      ) : receipt ? (
         <div className="wizard-success">
           <span className="success-check">
             <Check size={34} />
@@ -218,7 +280,9 @@ export function ProjectWizard({
           <p>
             {receipt.mode === "local"
               ? "Your brief was saved locally for this development demo. It has not been sent to ODDESTACK."
-              : "Your brief has been saved. Thanks for sharing what you want to build."}
+              : receipt.mode === "email"
+                ? "Your enquiry has been queued for email delivery to our team. Thanks for sharing what you want to build."
+                : "Your brief has been saved. Thanks for sharing what you want to build."}
           </p>
           <p className="receipt">Reference: {receipt.id}</p>
           <button
@@ -402,7 +466,7 @@ export function ProjectWizard({
                 </div>
                 <p className="small-copy">
                   We’ll use these details to respond to your project enquiry.{" "}
-                  <a href="/privacy">Read the privacy notice.</a>
+                  <Link href="/privacy">Read the privacy notice.</Link>
                 </p>
               </>
             )}
@@ -440,7 +504,9 @@ export function ProjectWizard({
                 {pending
                   ? "Saving your brief…"
                   : step === 4
-                    ? "Send my brief"
+                    ? process.env.NEXT_PUBLIC_STATIC_SITE === "true"
+                      ? "Prepare email brief"
+                      : "Send my brief"
                     : "Continue"}
                 {step === 4 ? <Send size={16} /> : <ArrowRight size={17} />}
               </button>

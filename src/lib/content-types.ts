@@ -28,6 +28,11 @@ export interface TeamMember {
   tags: string[];
   bio: string;
   placeholder: boolean;
+  experience?: string;
+  highlights?: string[];
+  deliveredApps?: { name: string; contribution: string }[];
+  companyWork?: { name: string; relationship: string; contribution: string }[];
+  achievements?: string[];
 }
 export interface CaseStudy {
   slug: string;

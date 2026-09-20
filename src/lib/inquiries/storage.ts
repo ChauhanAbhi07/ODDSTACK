@@ -68,6 +68,10 @@ export async function saveInquiry(
   const driver =
     process.env.INQUIRY_STORAGE_DRIVER ||
     (process.env.NODE_ENV === "production" ? "disabled" : "local");
+  if (driver === "email") {
+    const { sendInquiryEmail } = await import("./email");
+    return sendInquiryEmail(inquiry, key);
+  }
   if (driver === "postgres") {
     const { savePostgres } = await import("./postgres");
     return savePostgres(inquiry, key, clientKey);

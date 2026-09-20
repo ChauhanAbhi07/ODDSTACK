@@ -6,4 +6,4 @@ export class StorageError extends Error {
     super(message);
   }
 }
-export type Receipt = { id: string; mode: "local" | "live" };
+export type Receipt = { id: string; mode: "local" | "live" | "email" };

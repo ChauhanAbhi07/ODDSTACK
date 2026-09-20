@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     template: "%s | ODDESTACK",
   },
   description: site.description,
-  openGraph: { images: ["/opengraph-image"] },
+  openGraph: { images: [`${site.url}/${site.socialImage}`] },
   twitter: { card: "summary_large_image" },
 };
 export default function RootLayout({

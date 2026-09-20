@@ -155,21 +155,21 @@ export default function Home() {
       </section>
       <section className="section section-border container">
         <SectionTitle
-          eyebrow="Different minds. Shared ambition."
+          eyebrow="The experience behind your next project"
           title={
             <>
-              Meet the humans
+              Different minds.
               <br />
-              <span className="muted">behind the stack.</span>
+              <span className="muted">Experience that connects.</span>
             </>
           }
-          description="Builders, thinkers and makers. Public profiles use pseudonyms."
+          description="Explore the team's experience across mobile apps, web platforms, enterprise systems, data and creative work. Profiles use pseudonyms."
         >
           <ButtonLink href="/team" secondary>
             Meet the collective
           </ButtonLink>
         </SectionTitle>
-        <TeamGrid limit={4} />
+        <TeamGrid />
       </section>
       <Process />
       <section className="section section-border container comparison-section">

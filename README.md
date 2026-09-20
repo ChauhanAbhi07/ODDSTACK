@@ -20,7 +20,7 @@ npm run build
 npm start
 ```
 
-Production defaults to public content and disables inquiry persistence until a production adapter is configured. PostgreSQL storage, a retryable notification queue and the existing webhook adapter are implemented. A submitted brief will show an honest unavailable message and an email fallback if storage is not connected. See [the deployment handoff](docs/DEPLOYMENT.md) for standalone/Docker deployment and database operations.
+Production defaults to public content and disables enquiry submission until a production adapter is configured. Direct email delivery needs no database. PostgreSQL storage, a retryable notification queue and a webhook adapter are also available. An unconfigured form shows an unavailable message and an email fallback. See [the deployment handoff](docs/DEPLOYMENT.md) for email setup and standalone/Docker deployment.
 
 ## What is implemented
 
@@ -38,6 +38,10 @@ There are **42 page URLs in preview mode**: eleven fixed pages, ten capability p
 Routes: `/`, `/services`, `/services/[slug]`, `/solutions`, `/industries`, `/industries/[slug]`, `/work`, `/work/[slug]`, `/team`, `/insights`, `/insights/[slug]`, `/about`, `/contact`, `/privacy`, `/terms` and `POST /api/inquiries`.
 
 ## Architecture
+
+For GitHub Pages, use the [static publishing guide](docs/GITHUB-PAGES.md). The Pages build keeps the enquiry wizard and prepares an email draft for the visitor to send. It needs no backend, database or email API credentials.
+
+The frontend and enquiry API share one Next.js deployment. For direct inbox delivery without a database, use `INQUIRY_STORAGE_DRIVER=email` with `RESEND_API_KEY`, `INQUIRY_EMAIL_FROM` and `INQUIRY_EMAIL_TO`. See [direct email setup](docs/DEPLOYMENT.md#direct-email-one-deployment-no-database). The existing local, PostgreSQL and storage-webhook drivers remain optional alternatives.
 
 `src/app` contains Server Component route templates and the inquiry handler. `src/components` contains shared layout, UI primitives, CSS/SVG artwork and isolated interactive components. `src/data` holds typed content; `src/lib` holds recommendation rules, publication filtering, validation, SEO helpers and persistence. `src/config/site.ts` holds business configuration. Tokens, component styles and responsive rules live in `src/app/globals.css` alongside Tailwind.
 
@@ -62,7 +66,10 @@ Reusable components include `Header`, `Footer`, `Wordmark`, `ButtonLink`, `Eyebr
 | `NEXT_PUBLIC_SITE_URL` | Canonical origin; `http://localhost:3000` locally. Set the real HTTPS origin before a public build. |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | Display email; defaults to the brief's `hello@oddestack.com`, ownership unconfirmed. |
 | `CONTENT_MODE` | `preview` or `public`; defaults to preview in development, public in production. |
-| `INQUIRY_STORAGE_DRIVER` | `local`, `postgres`, `webhook`, or `disabled`; development defaults to local, production to disabled. |
+| `INQUIRY_STORAGE_DRIVER` | `email`, `local`, `postgres`, `webhook`, or `disabled`; development defaults to local, production to disabled. |
+| `RESEND_API_KEY` | Server-only email API key for direct email delivery. |
+| `INQUIRY_EMAIL_FROM` | Plain email address on a verified sending domain. |
+| `INQUIRY_EMAIL_TO` | Fixed business inbox that receives enquiries. |
 | `DATABASE_URL` | Server-only PostgreSQL connection string when using `postgres`. |
 | `RATE_LIMIT_SECRET` | Random secret of at least 32 characters for persistent rate-limit buckets. |
 | `INQUIRY_NOTIFICATION_WEBHOOK_URL` / `INQUIRY_NOTIFICATION_WEBHOOK_SECRET` | Optional notification destination and credential, used by `db:notify`. |
@@ -83,7 +90,9 @@ Requests require JSON and an `Idempotency-Key` header. The server enforces a 16 
 
 Local submissions are stored as `.local/inquiries/<hashed-key>/record.json`. Each record includes a generated receipt ID, payload hash, timestamp and the validated brief. Directory creation claims the idempotency key; atomic rename makes a complete record visible. A repeated identical request receives the same receipt; changed content with the same key returns 409. This per-record design replaces the plan's proposed JSONL file to make concurrent retries safer. These directories contain personal information and are gitignored; manage their retention deliberately.
 
-For production set `INQUIRY_STORAGE_DRIVER=webhook` and configure its URL and secret. The endpoint receives the validated brief, a bearer credential and the same `Idempotency-Key`. It must persist durably before returning a JSON response like `{"id":"receipt_123"}`. IDs must contain 1–100 letters, digits, underscores or hyphens. It must return the same ID for duplicate payload/key pairs and reject conflicting reuse. The adapter uses HTTPS, rejects redirects and applies a 10-second timeout.
+For direct inbox delivery, use `INQUIRY_STORAGE_DRIVER=email` and configure the email values above. It sends through Resend with a 10-second timeout and stable retry keys, without saving a database or local copy. The browser confirms queued delivery only after the provider acknowledges the message.
+
+For an external storage integration, set `INQUIRY_STORAGE_DRIVER=webhook` and configure its URL and secret. The endpoint receives the validated brief, a bearer credential and the same `Idempotency-Key`. It must persist durably before returning a JSON response like `{"id":"receipt_123"}`. IDs must contain 1–100 letters, digits, underscores or hyphens. It must return the same ID for duplicate payload/key pairs and reject conflicting reuse. The adapter uses HTTPS, rejects redirects and applies a 10-second timeout.
 
 The API includes an in-process limiter. The PostgreSQL adapter additionally implements a shared transactional limiter and idempotency across application instances. The external storage-webhook adapter relies on the receiver's shared rate and deduplication controls. By default, untrusted proxy headers are ignored and requests share an anonymous bucket. PostgreSQL records a notification job in the same transaction as the enquiry; run `npm run db:notify` against a configured receiver to hand it to email/CRM automation with retry support. This app never falsely claims an email was sent.
 

@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { ArrowUpRight, Plus } from "lucide-react";
-import { team } from "@/data/team";
+import { featuredTeam } from "@/data/team";
 import { caseStudies } from "@/data/case-studies";
 import { processSteps } from "@/data/process";
 import { engagements } from "@/data/engagements";
 import { stats } from "@/data/stats";
-import { isPreview, visibleContent } from "@/lib/publication";
+import { visibleContent } from "@/lib/publication";
 import { site } from "@/config/site";
 import { CaseArtwork } from "./artwork";
 import { AnimatedCount } from "./motion-enhancements";
@@ -50,36 +50,83 @@ export function WorkGrid({ limit }: { limit?: number }) {
     </div>
   );
 }
-export function TeamGrid({ limit }: { limit?: number }) {
-  const people = team
-    .filter((p) => isPreview() || !p.placeholder)
-    .slice(0, limit);
+export function TeamGrid() {
   return (
-    <div className="team-grid">
-      {people.map((person, i) => (
-        <article className="team-card" key={person.name}>
-          <div className={`avatar avatar-${i % 4}`} aria-hidden="true">
-            <div className="avatar-shape" />
-            <span>
-              {person.name
-                .split(" ")
-                .map((n) => n[0])
-                .join("")}
-            </span>
-            <span className="avatar-number">
-              ODD / {String(i + 1).padStart(2, "0")}
-            </span>
-            <Plus size={17} />
+    <div className="team-grid team-experience-grid">
+      {featuredTeam.map((person, i) => (
+        <article className="team-card team-experience-card" key={person.name}>
+          <div className="team-experience-lead">
+            <span className="eyebrow">Experience</span>
+            <h3>{person.experience}</h3>
           </div>
-          <div className="team-card-heading">
-            <h3>{person.name}</h3>
-            <span>
-              {person.placeholder ? "Placeholder profile" : "Pseudonym"}
-            </span>
+          <div className="team-person">
+            <div className={`avatar avatar-${i % 4}`} aria-hidden="true">
+              <div className="avatar-shape" />
+              <span>
+                {person.name
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")}
+              </span>
+            </div>
+            <div>
+              <div className="team-card-heading">
+                <h4>{person.name}</h4>
+                <span>Pseudonym</span>
+              </div>
+              <p className="team-role">{person.role}</p>
+            </div>
           </div>
-          <p className="team-role">{person.role}</p>
           <p>{person.bio}</p>
-          <Tags items={person.tags.slice(0, limit ? 3 : undefined)} />
+          {!!person.highlights?.length && (
+            <div className="team-evidence">
+              <h4>Work highlights</h4>
+              <ul>
+                {person.highlights.map((highlight) => (
+                  <li key={highlight}>{highlight}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {!!person.deliveredApps?.length && (
+            <div className="team-evidence">
+              <h4>Delivered apps</h4>
+              <ul>
+                {person.deliveredApps.map((app) => (
+                  <li key={app.name}>
+                    <strong>{app.name}</strong>
+                    <span>{app.contribution}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {!!person.companyWork?.length && (
+            <div className="team-evidence">
+              <h4>Company experience</h4>
+              <ul>
+                {person.companyWork.map((company) => (
+                  <li key={`${company.name}-${company.relationship}`}>
+                    <strong>
+                      {company.name} · {company.relationship}
+                    </strong>
+                    <span>{company.contribution}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {!!person.achievements?.length && (
+            <div className="team-evidence">
+              <h4>Achievements</h4>
+              <ul>
+                {person.achievements.map((achievement) => (
+                  <li key={achievement}>{achievement}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <Tags items={person.tags.slice(0, 4)} />
         </article>
       ))}
     </div>

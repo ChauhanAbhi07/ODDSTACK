@@ -2,6 +2,11 @@ import type { TeamMember } from "@/lib/content-types";
 export const team: TeamMember[] = [
   {
     name: "Aarav Mehta",
+    experience: "Customer-facing mobile & fintech",
+    highlights: [
+      "Mobile experiences across fintech and digital products",
+      "Frontend interfaces, API integration and mobile performance",
+    ],
     role: "Frontend & Mobile Engineer",
     tags: [
       "React Native",
@@ -17,6 +22,11 @@ export const team: TeamMember[] = [
   },
   {
     name: "Kabir Ansari",
+    experience: "Mobile apps & intelligent search",
+    highlights: [
+      "Cross-platform mobile development with Flutter and Android",
+      "Intelligent search and conversational AI integrations",
+    ],
     role: "Lead Mobile & AI Integration Engineer",
     tags: [
       "Flutter",
@@ -33,6 +43,11 @@ export const team: TeamMember[] = [
   },
   {
     name: "Rohan Malik",
+    experience: "Web platforms & ecommerce",
+    highlights: [
+      "Full-stack web platforms and modern business applications",
+      "Ecommerce experiences and connected backend APIs",
+    ],
     role: "Full-Stack Engineer",
     tags: [
       "Next.js",
@@ -49,6 +64,11 @@ export const team: TeamMember[] = [
   },
   {
     name: "Dev Arora",
+    experience: "Business intelligence & reporting",
+    highlights: [
+      "Dashboards for operational and commercial data",
+      "KPI reporting and insights to support business decisions",
+    ],
     role: "Data & BI Analyst",
     tags: [
       "Power BI",
@@ -64,6 +84,11 @@ export const team: TeamMember[] = [
   },
   {
     name: "Arjun Sinha",
+    experience: "Enterprise systems & integrations",
+    highlights: [
+      "ERP workflows and enterprise API integrations",
+      "Field-service systems and complex operational platforms",
+    ],
     role: "Enterprise Backend & ERP Engineer",
     tags: [
       ".NET",
@@ -81,6 +106,11 @@ export const team: TeamMember[] = [
   },
   {
     name: "Vihaan Kapoor",
+    experience: "Social content & visual storytelling",
+    highlights: [
+      "Reels, short-form video and social-first campaigns",
+      "Video editing, motion graphics and brand storytelling",
+    ],
     role: "Video & Content Creator",
     tags: [
       "Premiere Pro",
@@ -163,3 +193,9 @@ export const team: TeamMember[] = [
     placeholder: true,
   },
 ];
+
+// Keep the remaining source profiles available without displaying extra members.
+// Named apps, company work and measured achievements await supplied details.
+export const featuredTeam = team
+  .filter((person) => !person.placeholder)
+  .slice(0, 6);
