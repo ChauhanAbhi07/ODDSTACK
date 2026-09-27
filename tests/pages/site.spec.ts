@@ -114,7 +114,7 @@ test("static enquiry preserves selections and prepares email without posting to 
   const href = await page
     .getByRole("link", { name: "Open email app" })
     .getAttribute("href");
-  expect(href).toContain("mailto:iamabhishekk2003@gmail.com?");
+  expect(href).toContain("mailto:hello@oddestack.com?");
   expect(decodeURIComponent(href!)).toContain("visitor@example.com");
   await expect(page.getByRole("textbox")).toHaveValue(
     /Technology, UI\/UX & Product/,

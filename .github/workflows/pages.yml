@@ -30,7 +30,7 @@ jobs:
         run: npm run build:pages
         env:
           NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
-          NEXT_PUBLIC_CONTACT_EMAIL: ${{ vars.CONTACT_EMAIL || 'iamabhishekk2003@gmail.com' }}
+          NEXT_PUBLIC_CONTACT_EMAIL: hello@oddestack.com
       - uses: actions/upload-pages-artifact@v4
         with:
           path: ${{ steps.export.outputs.path }}

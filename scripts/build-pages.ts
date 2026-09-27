@@ -69,7 +69,7 @@ async function main() {
         NEXT_PUBLIC_BASE_PATH: basePath,
         NEXT_PUBLIC_SITE_URL: siteUrl.href.replace(/\/$/, ""),
         NEXT_PUBLIC_CONTACT_EMAIL:
-          process.env.NEXT_PUBLIC_CONTACT_EMAIL || "iamabhishekk2003@gmail.com",
+          process.env.NEXT_PUBLIC_CONTACT_EMAIL || "hello@oddestack.com",
         INQUIRY_STORAGE_DRIVER: "disabled",
         // Ensure one copy of React/Next when building from the isolated source tree.
         NEXT_TELEMETRY_DISABLED: "1",
