@@ -31,7 +31,15 @@ export interface TeamMember {
   experience?: string;
   highlights?: string[];
   deliveredApps?: { name: string; contribution: string }[];
-  companyWork?: { name: string; relationship: string; contribution: string }[];
+  clientWork?: {
+    name: string;
+    relationship:
+      | "Project delivery"
+      | "Third-party integrations"
+      | "Content delivery"
+      | "Freelance work";
+    contribution: string;
+  }[];
   achievements?: string[];
 }
 export interface CaseStudy {

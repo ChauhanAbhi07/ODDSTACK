@@ -88,44 +88,6 @@ export function TeamGrid() {
               </ul>
             </div>
           )}
-          {!!person.deliveredApps?.length && (
-            <div className="team-evidence">
-              <h4>Delivered apps</h4>
-              <ul>
-                {person.deliveredApps.map((app) => (
-                  <li key={app.name}>
-                    <strong>{app.name}</strong>
-                    <span>{app.contribution}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {!!person.companyWork?.length && (
-            <div className="team-evidence">
-              <h4>Company experience</h4>
-              <ul>
-                {person.companyWork.map((company) => (
-                  <li key={`${company.name}-${company.relationship}`}>
-                    <strong>
-                      {company.name} · {company.relationship}
-                    </strong>
-                    <span>{company.contribution}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {!!person.achievements?.length && (
-            <div className="team-evidence">
-              <h4>Achievements</h4>
-              <ul>
-                {person.achievements.map((achievement) => (
-                  <li key={achievement}>{achievement}</li>
-                ))}
-              </ul>
-            </div>
-          )}
           <Tags items={person.tags.slice(0, 4)} />
         </article>
       ))}

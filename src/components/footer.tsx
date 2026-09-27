@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { site } from "@/config/site";
-import { navigation } from "@/data/navigation";
+import { footerNavigation } from "@/data/navigation";
 export function Footer() {
   return (
     <footer className="site-footer">
@@ -13,17 +13,13 @@ export function Footer() {
             when different minds connect.
           </p>
           <Link href="/contact">
-            Build your stack <ArrowUpRight aria-hidden="true" />
+            Let’s talk <ArrowUpRight aria-hidden="true" />
           </Link>
         </div>
         <div className="footer-links">
           <p>Technology × Growth × Intelligence</p>
           <nav aria-label="Footer navigation">
-            {[
-              ...navigation,
-              { label: "About", href: "/about" },
-              { label: "Contact", href: "/contact" },
-            ].map((n) => (
+            {footerNavigation.map((n) => (
               <Link key={n.href} href={n.href}>
                 {n.label}
               </Link>

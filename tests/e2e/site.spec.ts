@@ -32,13 +32,27 @@ test("homepage is accessible and responsive at every requested width", async ({
   expect(mobileAxe.violations).toEqual([]);
   await page.screenshot({ path: "artifacts/home-mobile.png", fullPage: true });
 });
-test("navigation, capability disclosure and solution dialog work with keyboard", async ({
+test("service navigation, FAQ and solution dialog work with keyboard", async ({
   page,
 }) => {
   await page.goto("/");
-  const capability = page.getByRole("button", { name: /02.*Technology/ });
-  await capability.click();
-  await expect(capability).toHaveAttribute("aria-expanded", "true");
+  await page
+    .getByRole("link", { name: "Explore services", exact: true })
+    .click();
+  await expect(page).toHaveURL(/#services$/);
+  const question = page
+    .locator("summary")
+    .filter({ hasText: "Can I start with just one service?" });
+  await question.focus();
+  await page.keyboard.press("Enter");
+  await expect(
+    page.getByText("Yes. Start with a website", { exact: false }),
+  ).toBeVisible();
+  await page
+    .getByRole("link", { name: "I need a website", exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/services\/technology/);
+  await page.goto("/solutions");
   await page.getByRole("button", { name: /01 Generate more demand/ }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.keyboard.press("Escape");
@@ -50,6 +64,16 @@ test("navigation, capability disclosure and solution dialog work with keyboard",
   await expect(
     page.getByRole("button", { name: "Open navigation" }),
   ).toBeFocused();
+  await page.getByRole("button", { name: "Open navigation" }).click();
+  await page
+    .getByRole("navigation", { name: "Mobile navigation" })
+    .getByRole("link", { name: "Services", exact: false })
+    .click();
+  await expect(page).toHaveURL(/\/services\/?$/);
+  await expect(
+    page.getByRole("dialog", { name: "Navigation" }),
+  ).not.toBeVisible();
+  await expect(page.locator("body")).not.toHaveCSS("overflow", "hidden");
 });
 test("finder hands a valid stack to the complete project wizard", async ({
   page,

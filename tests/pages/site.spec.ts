@@ -72,12 +72,18 @@ test("static enquiry preserves selections and prepares email without posting to 
   });
   await page.goto("/ODDSTACK/");
   await page
-    .getByRole("link", { name: "Build my website", exact: true })
+    .getByRole("link", { name: "I need a website", exact: true })
+    .click();
+  await page
+    .getByRole("link", { name: "Build your stack", exact: true })
     .click();
   await page.waitForURL("**/contact/**");
   await expect(
     page.getByRole("button", { name: "Technology", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
+  await page
+    .getByRole("button", { name: "UI/UX & Product", exact: true })
+    .click();
   await page
     .getByRole("button", { name: "Build something", exact: true })
     .click();

@@ -44,7 +44,7 @@ export function Header() {
           ))}
         </nav>
         <Link className="header-cta" href="/contact">
-          Build your stack <ArrowUpRight size={16} aria-hidden="true" />
+          Let’s talk <ArrowUpRight size={16} aria-hidden="true" />
         </Link>
         <button
           className="icon-button menu-trigger"

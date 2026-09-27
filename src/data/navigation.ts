@@ -1,8 +1,17 @@
+import { publishedReviews } from "./reviews";
+
 export const navigation = [
-  { label: "What we do", href: "/services" },
+  { label: "Services", href: "/services" },
+  ...(publishedReviews.length ? [{ label: "Reviews", href: "/#reviews" }] : []),
+  { label: "Our experience", href: "/work" },
+  { label: "About us", href: "/about" },
+];
+
+export const footerNavigation = [
+  ...navigation,
+  { label: "Team", href: "/team" },
   { label: "Solutions", href: "/solutions" },
   { label: "Industries", href: "/industries" },
-  { label: "Work", href: "/work" },
-  { label: "Team", href: "/team" },
   { label: "Insights", href: "/insights" },
+  { label: "Contact", href: "/contact" },
 ];

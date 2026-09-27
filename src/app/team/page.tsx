@@ -3,7 +3,7 @@ import { TeamGrid, FinalCTA } from "@/components/content-sections";
 import { metadata as meta } from "@/lib/seo";
 export const metadata = meta(
   "The collective",
-  "Meet the people behind ODDESTACK and explore their experience across mobile apps, web platforms, enterprise systems, data and creative work.",
+  "Meet the people behind ODDESTACK and explore their skills and experience across mobile, web, enterprise systems, data, AI and creative work.",
   "/team",
 );
 export default function Team() {
@@ -12,12 +12,11 @@ export default function Team() {
       <PageIntro
         label="The collective"
         title="Different minds. Experience that connects."
-        description="Start with the work: mobile experiences, web platforms, enterprise integrations, business intelligence and social content. Meet the people who bring those skills to your project."
+        description="Meet our team and explore their skills, experience and work highlights."
       />
       <div className="container page-content">
         <p className="intro-note">
-          Names are pseudonyms used to protect individual privacy. Highlights
-          describe individual experience, not an ODDESTACK client portfolio.
+          Names are pseudonyms. Work highlights reflect individual experience.
         </p>
         <TeamGrid />
       </div>
