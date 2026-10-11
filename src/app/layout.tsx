@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { ClickAlerts } from "@/components/click-alerts";
 import { JsonLd } from "@/components/ui";
 import { site } from "@/config/site";
 import "./globals.css";
@@ -34,6 +35,7 @@ export default function RootLayout({
         <Header />
         <main id="main-content">{children}</main>
         <Footer />
+        <ClickAlerts />
         <JsonLd
           data={{
             "@context": "https://schema.org",

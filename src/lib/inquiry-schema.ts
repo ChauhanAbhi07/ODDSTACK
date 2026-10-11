@@ -70,8 +70,21 @@ export const inquirySchema = z.object({
     .trim()
     .min(10, "Add a little more detail (at least 10 characters).")
     .max(4000),
-  name: z.string().trim().min(2, "Add your name.").max(100),
-  company: z.string().trim().max(150).default(""),
+  name: z
+    .string()
+    .trim()
+    .min(2, "Add your name.")
+    .max(100)
+    .refine((v) => !/[\r\n]/.test(v), "Enter a name without line breaks."),
+  company: z
+    .string()
+    .trim()
+    .max(150)
+    .default("")
+    .refine(
+      (v) => !/[\r\n]/.test(v),
+      "Enter a company name without line breaks.",
+    ),
   email: z.email({ error: "Enter a valid email address." }).max(254),
   phone: z
     .string()

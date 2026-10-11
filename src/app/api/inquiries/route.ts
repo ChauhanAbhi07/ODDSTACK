@@ -1,4 +1,6 @@
 import { createHash, createHmac } from "node:crypto";
+import { alertMessage } from "@/lib/alerts/targets";
+import { sendOwnerAlert } from "@/lib/alerts/whatsapp";
 import { inquirySchema } from "@/lib/inquiry-schema";
 import { saveInquiry, StorageError } from "@/lib/inquiries/storage";
 export const runtime = "nodejs";
@@ -106,7 +108,9 @@ export async function POST(request: Request) {
         .update(address)
         .digest("hex");
     }
-    return response(await saveInquiry(parsed.data, key, persistentBucket), 201);
+    const receipt = await saveInquiry(parsed.data, key, persistentBucket);
+    await sendOwnerAlert(alertMessage({ kind: "enquiry" }));
+    return response(receipt, 201);
   } catch (error) {
     return response(
       {

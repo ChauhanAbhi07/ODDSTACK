@@ -26,11 +26,21 @@ export default function Privacy() {
         </p>
         <h2>What this build does</h2>
         <p>
-          The website does not include advertising trackers or analytics
-          cookies. Form answers stay in memory in the current page until you
-          submit or leave. Submitted details are processed by Formspree and our
-          email provider. The form validates inputs and uses a hidden spam
-          field.
+          The website does not use advertising trackers. A first-party cookie
+          named oddestack_visitor stores an anonymous visitor id, the date it
+          was first set, and a visit count for about six months. It does not
+          store your name, email, or phone number. Form answers stay in memory
+          in the current page until you submit or leave. Submitted details are
+          processed by Formspree and our email provider. The form validates
+          inputs and uses a hidden spam field.
+        </p>
+        <p>
+          Clicks on service and contact links email our team the button name,
+          page, visitor id, visit count, referring site, language, timezone, and
+          device type through Formspree. The same click can also send the button
+          name and page on WhatsApp through CallMeBot when that is configured.
+          Your name, email, and phone number are included only when you submit
+          the enquiry form.
         </p>
         <h2>Before launch</h2>
         <p>

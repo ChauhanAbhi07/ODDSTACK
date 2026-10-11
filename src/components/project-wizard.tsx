@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight, ArrowLeft, Check, Send } from "lucide-react";
 import { services } from "@/data/services";
 import { finderIndustries } from "@/lib/recommendations";
+import { reportAlert } from "@/lib/alerts/report";
 import { inquirySchema } from "@/lib/inquiry-schema";
 import { site } from "@/config/site";
 
@@ -150,6 +151,7 @@ export function ProjectWizard({
             : "We couldn't send your enquiry. Your details are still here; please try again.",
         );
       }
+      reportAlert({ kind: "enquiry" });
       setSubmitted(true);
       requestAnimationFrame(() => title.current?.focus());
     } catch (error) {
