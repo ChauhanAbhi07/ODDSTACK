@@ -4,13 +4,7 @@ import Link from "next/link";
 import { ArrowRight, ArrowLeft, Check, Send } from "lucide-react";
 import { services } from "@/data/services";
 import { finderIndustries } from "@/lib/recommendations";
-import {
-  intents,
-  companySizes,
-  budgets,
-  timelines,
-  inquirySchema,
-} from "@/lib/inquiry-schema";
+import { inquirySchema } from "@/lib/inquiry-schema";
 import { site } from "@/config/site";
 
 type FormData = {
@@ -29,12 +23,10 @@ type FormData = {
   website: string;
 };
 const stepFields = [
-  ["intent", "capabilities"],
-  ["industry", "companySize"],
-  ["budget", "timeline"],
-  ["description"],
+  ["description", "capabilities"],
   ["name", "company", "email", "phone"],
 ];
+const lastStep = stepFields.length - 1;
 export function ProjectWizard({
   initialCapabilities = [],
   initialIndustry = "",
@@ -47,7 +39,7 @@ export function ProjectWizard({
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<FormData>({
     engagement: initialEngagement,
-    intent: "",
+    intent: "Not sure yet",
     capabilities: initialCapabilities.filter((id) =>
       services.some((s) => s.slug === id),
     ),
@@ -67,12 +59,8 @@ export function ProjectWizard({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pending, setPending] = useState(false);
   const [failure, setFailure] = useState("");
-  const [emailDraft, setEmailDraft] = useState("");
-  const [receipt, setReceipt] = useState<{ id: string; mode: string } | null>(
-    null,
-  );
-  const key = useRef("");
-  const priorPayload = useRef("");
+  const [submitted, setSubmitted] = useState(false);
+  const inFlight = useRef(false);
   const root = useRef<HTMLDivElement>(null);
   const title = useRef<HTMLHeadingElement>(null);
   const uid = useId();
@@ -108,104 +96,75 @@ export function ProjectWizard({
     return true;
   };
   const submit = async () => {
-    if (!validate(true)) return;
-    if (process.env.NEXT_PUBLIC_STATIC_SITE === "true") {
-      setEmailDraft(
-        [
-          "ODDESTACK project enquiry",
-          "",
-          `Name: ${form.name}`,
-          `Company / project: ${form.company}`,
-          `Email: ${form.email}`,
-          `Phone / WhatsApp: ${form.phone || "Not provided"}`,
-          "",
-          `Intent: ${form.intent}`,
-          `Services: ${form.capabilities.map((id) => services.find((s) => s.slug === id)?.title || id).join(", ") || "Not sure yet"}`,
-          `Industry: ${form.industry}`,
-          `Company size: ${form.companySize}`,
-          `Budget: ${form.budget}`,
-          `Timeline: ${form.timeline}`,
-          `Engagement: ${form.engagement || "Not specified"}`,
-          "",
-          "Project description:",
-          form.description,
-        ].join("\n"),
-      );
-      requestAnimationFrame(() => title.current?.focus());
-      return;
-    }
+    if (inFlight.current || !validate(true)) return;
+    const inquiry = inquirySchema.parse(form);
+    inFlight.current = true;
     setPending(true);
     setFailure("");
-    const payload = JSON.stringify(form);
-    if (!key.current || payload !== priorPayload.current) {
-      key.current = crypto.randomUUID();
-      priorPayload.current = payload;
-    }
     try {
-      const r = await fetch("/api/inquiries", {
+      const response = await fetch(site.inquiryEndpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Idempotency-Key": key.current,
+          Accept: "application/json",
         },
-        body: payload,
+        body: JSON.stringify({
+          name: inquiry.name,
+          email: inquiry.email,
+          message: inquiry.description,
+          company: inquiry.company,
+          phone: inquiry.phone,
+          services:
+            inquiry.capabilities
+              .map(
+                (id) =>
+                  services.find((service) => service.slug === id)?.title || id,
+              )
+              .join(", ") || "Not sure yet",
+          industry: inquiry.industry,
+          engagement: inquiry.engagement,
+          subject: "New ODDESTACK website enquiry",
+          _gotcha: inquiry.website,
+        }),
+        signal: AbortSignal.timeout(20000),
       });
-      const data = await r.json();
-      if (!r.ok) {
-        setErrors(data.fields || {});
-        throw new Error(data.error || "We couldn't save your brief.");
+      const data = await response.json().catch(() => null);
+      if (!response.ok || data?.ok !== true) {
+        const fields: Record<string, string> = {};
+        if (Array.isArray(data?.errors)) {
+          for (const issue of data.errors) {
+            const field =
+              issue.field === "message" ? "description" : issue.field;
+            if (
+              stepFields.flat().includes(field) &&
+              typeof issue.message === "string"
+            )
+              fields[field] = issue.message;
+          }
+        }
+        if (fields.description) setStep(0);
+        setErrors(fields);
+        throw new Error(
+          response.status === 429
+            ? "Too many enquiries right now. Please wait a moment and try again."
+            : "We couldn't send your enquiry. Your details are still here; please try again.",
+        );
       }
-      setReceipt(data);
+      setSubmitted(true);
       requestAnimationFrame(() => title.current?.focus());
     } catch (error) {
       setFailure(
-        error instanceof Error
+        error instanceof Error &&
+          error.name !== "TypeError" &&
+          error.name !== "TimeoutError"
           ? error.message
-          : "The connection failed. Your answers are still here; please retry.",
+          : "We couldn't confirm your enquiry. Your details are still here; please try again.",
       );
     } finally {
+      inFlight.current = false;
       setPending(false);
     }
   };
-  const choices = (field: keyof FormData, options: readonly string[]) => (
-    <div className="choice-grid">
-      {options.map((value) => (
-        <button
-          key={value}
-          type="button"
-          className={`choice ${form[field] === value ? "selected" : ""}`}
-          aria-pressed={form[field] === value}
-          onClick={() => set(field, value)}
-        >
-          {value}
-          {form[field] === value ? (
-            <Check size={15} />
-          ) : (
-            <span className="choice-dot" />
-          )}
-        </button>
-      ))}
-    </div>
-  );
-  const fieldset = (
-    field: keyof FormData,
-    label: string,
-    options: readonly string[],
-  ) => (
-    <fieldset
-      tabIndex={-1}
-      aria-invalid={!!errors[field]}
-      aria-describedby={errors[field] ? `${uid}-${field}-error` : undefined}
-    >
-      <legend>{label}</legend>
-      {choices(field, options)}
-      {errors[field] && (
-        <p id={`${uid}-${field}-error`} className="field-error">
-          {errors[field]}
-        </p>
-      )}
-    </fieldset>
-  );
   const input = (
     field: "name" | "company" | "email" | "phone",
     label: string,
@@ -220,7 +179,17 @@ export function ProjectWizard({
         type={type}
         autoComplete={autoComplete}
         value={form[field]}
-        maxLength={field === "email" ? 254 : field === "phone" ? 40 : 150}
+        maxLength={
+          field === "email"
+            ? 254
+            : field === "phone"
+              ? 40
+              : field === "name"
+                ? 100
+                : 150
+        }
+        required={field === "name" || field === "email"}
+        disabled={pending}
         onChange={(e) => set(field, e.target.value)}
         aria-invalid={!!errors[field]}
         aria-describedby={errors[field] ? `${uid}-${field}-error` : undefined}
@@ -234,73 +203,41 @@ export function ProjectWizard({
   );
   return (
     <div ref={root} className="project-wizard">
-      {emailDraft ? (
-        <div className="email-draft">
-          <h3 tabIndex={-1} ref={title}>
-            Your brief is ready to email.
-          </h3>
-          <p>
-            Open your email app, review the draft and send it to {site.email}.
-            Nothing has been sent yet.
-          </p>
-          <a
-            className="button"
-            href={`mailto:${site.email}?subject=${encodeURIComponent("ODDESTACK project enquiry")}&body=${encodeURIComponent(emailDraft)}`}
-          >
-            Open email app <Send size={16} aria-hidden="true" />
-          </a>
-          <label htmlFor={`${uid}-email-draft`}>
-            Prefer webmail? Copy your brief below and email it to {site.email}.
-          </label>
-          <textarea
-            id={`${uid}-email-draft`}
-            rows={10}
-            readOnly
-            value={emailDraft}
-            onFocus={(event) => event.target.select()}
-          />
-          <button
-            className="text-link"
-            onClick={() => {
-              setEmailDraft("");
-              requestAnimationFrame(() => title.current?.focus());
-            }}
-          >
-            <ArrowLeft size={16} aria-hidden="true" /> Edit my brief
-          </button>
-        </div>
-      ) : receipt ? (
+      {submitted ? (
         <div className="wizard-success">
           <span className="success-check">
-            <Check size={34} />
+            <Check size={34} aria-hidden="true" />
           </span>
           <h3 tabIndex={-1} ref={title}>
-            Nice. We’ve got the brief — even if you don’t.
+            Thanks! Your enquiry has been submitted.
           </h3>
-          <p>
-            {receipt.mode === "local"
-              ? "Your brief was saved locally for this development demo. It has not been sent to ODDESTACK."
-              : receipt.mode === "email"
-                ? "Your enquiry has been queued for email delivery to our team. Thanks for sharing what you want to build."
-                : "Your brief has been saved. Thanks for sharing what you want to build."}
-          </p>
-          <p className="receipt">Reference: {receipt.id}</p>
+          <p>We will reply using the contact details you shared.</p>
           <button
             className="button"
             onClick={() => {
-              setReceipt(null);
-              key.current = "";
+              setSubmitted(false);
+              setForm((current) => ({
+                ...current,
+                description: "",
+                name: "",
+                email: "",
+                phone: "",
+                company: "",
+                website: "",
+              }));
               move(0);
             }}
           >
-            Edit and create another brief <ArrowRight size={17} />
+            Start a new enquiry <ArrowRight size={17} aria-hidden="true" />
           </button>
         </div>
       ) : (
         <>
           <div className="wizard-progress">
-            <span className="mono-label">YOUR NEXT CHAPTER</span>
-            <span>0{step + 1} / 05</span>
+            <span className="mono-label">LET’S CONNECT</span>
+            <span>
+              Step {step + 1} of {stepFields.length}
+            </span>
           </div>
           <div className="progress-track">
             {stepFields.map((_, i) => (
@@ -308,31 +245,20 @@ export function ProjectWizard({
             ))}
           </div>
           <h3 ref={title} tabIndex={-1}>
-            {
-              [
-                "What are you trying to do?",
-                "Tell us about your business.",
-                "Let's set a little context.",
-                "What's on your mind?",
-                "Where can we find you?",
-              ][step]
-            }
+            {["What can we help you with?", "How can we reach you?"][step]}
           </h3>
           <p className="wizard-help">
             {
               [
-                "Start with the ambition. We'll help connect the rest.",
-                "A little context helps us build the right stack.",
-                "Rough estimates are fine. Nothing is set in stone.",
-                "Tell us what you want to build, fix, automate or grow.",
-                "One last step. Review your brief and leave your details.",
+                "A sentence or two is enough. No technical brief needed.",
+                "Just your name and email. We’ll discuss the details together.",
               ][step]
             }
           </p>
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              if (step < 4) {
+              if (step < lastStep) {
                 if (validate()) move(step + 1);
               } else void submit();
             }}
@@ -340,132 +266,86 @@ export function ProjectWizard({
           >
             {step === 0 && (
               <>
-                {fieldset("intent", "The mission", intents)}
-                <fieldset>
-                  <legend>
-                    What might you need?{" "}
-                    <span className="muted">(optional, choose any)</span>
-                  </legend>
-                  <div className="capability-choices">
-                    {services.map((s) => (
-                      <button
-                        type="button"
-                        key={s.slug}
-                        aria-pressed={form.capabilities.includes(s.slug)}
-                        onClick={() =>
-                          set(
-                            "capabilities",
-                            form.capabilities.includes(s.slug)
-                              ? form.capabilities.filter((id) => id !== s.slug)
-                              : [...form.capabilities, s.slug],
-                          )
-                        }
-                      >
-                        {s.title}
-                        {form.capabilities.includes(s.slug) && (
-                          <Check size={14} />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                </fieldset>
+                <div className="form-field">
+                  <label htmlFor={`${uid}-description`}>
+                    What do you need help with?
+                  </label>
+                  <textarea
+                    id={`${uid}-description`}
+                    name="description"
+                    rows={4}
+                    required
+                    value={form.description}
+                    maxLength={4000}
+                    placeholder="For example: I need a website for my shop with online bookings."
+                    onChange={(e) => set("description", e.target.value)}
+                    aria-invalid={!!errors.description}
+                    aria-describedby={
+                      errors.description
+                        ? `${uid}-description-error`
+                        : undefined
+                    }
+                  />
+                  {errors.description && (
+                    <p className="field-error" id={`${uid}-description-error`}>
+                      {errors.description}
+                    </p>
+                  )}
+                </div>
+                <details
+                  className="brief-review"
+                  open={initialCapabilities.length > 0 ? true : undefined}
+                >
+                  <summary>
+                    Choose services (optional)
+                    {form.capabilities.length
+                      ? ` · ${form.capabilities.length} selected`
+                      : ""}
+                  </summary>
+                  <fieldset>
+                    <legend>Select any services you have in mind</legend>
+                    <div className="capability-choices">
+                      {services.map((s) => (
+                        <button
+                          type="button"
+                          key={s.slug}
+                          aria-pressed={form.capabilities.includes(s.slug)}
+                          onClick={() =>
+                            set(
+                              "capabilities",
+                              form.capabilities.includes(s.slug)
+                                ? form.capabilities.filter(
+                                    (id) => id !== s.slug,
+                                  )
+                                : [...form.capabilities, s.slug],
+                            )
+                          }
+                        >
+                          {s.title}
+                          {form.capabilities.includes(s.slug) && (
+                            <Check size={14} aria-hidden="true" />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </fieldset>
+                </details>
               </>
             )}
             {step === 1 && (
               <>
-                <div className="form-field">
-                  <label htmlFor={`${uid}-industry`}>Industry</label>
-                  <select
-                    id={`${uid}-industry`}
-                    value={form.industry}
-                    onChange={(e) => set("industry", e.target.value)}
-                    aria-invalid={!!errors.industry}
-                    aria-describedby={`${uid}-industry-error`}
-                  >
-                    <option value="">Choose your industry</option>
-                    {finderIndustries.map((i) => (
-                      <option key={i}>{i}</option>
-                    ))}
-                  </select>
-                  <p className="field-error" id={`${uid}-industry-error`}>
-                    {errors.industry}
-                  </p>
-                </div>
-                {fieldset("companySize", "Company size", companySizes)}
-              </>
-            )}
-            {step === 2 && (
-              <>
-                {fieldset("budget", "Estimated project budget", budgets)}
-                {fieldset(
-                  "timeline",
-                  "When would you like to begin?",
-                  timelines,
-                )}
-              </>
-            )}
-            {step === 3 && (
-              <div className="form-field">
-                <label htmlFor={`${uid}-description`}>
-                  Your project, in your words
-                </label>
-                <textarea
-                  id={`${uid}-description`}
-                  rows={7}
-                  value={form.description}
-                  maxLength={4000}
-                  placeholder="The idea, the problem, or the thing that keeps ending up on your to-do list…"
-                  onChange={(e) => set("description", e.target.value)}
-                  aria-invalid={!!errors.description}
-                  aria-describedby={`${uid}-description-error`}
-                />
-                <div className="textarea-foot">
-                  <p className="field-error" id={`${uid}-description-error`}>
-                    {errors.description}
-                  </p>
-                  <span>{form.description.length}/4000</span>
-                </div>
-              </div>
-            )}
-            {step === 4 && (
-              <>
-                <details className="brief-review">
-                  <summary>Review your brief</summary>
-                  <dl>
-                    {form.engagement && (
-                      <>
-                        <dt>Engagement</dt>
-                        <dd>{form.engagement}</dd>
-                      </>
-                    )}
-                    <dt>Mission</dt>
-                    <dd>{form.intent}</dd>
-                    <dt>Capabilities</dt>
-                    <dd>
-                      {form.capabilities
-                        .map((id) => services.find((s) => s.slug === id)?.title)
-                        .join(", ") || "Help us decide"}
-                    </dd>
-                    <dt>Business</dt>
-                    <dd>
-                      {form.industry} · {form.companySize}
-                    </dd>
-                    <dt>Budget / timeline</dt>
-                    <dd>
-                      {form.budget} · {form.timeline}
-                    </dd>
-                    <dt>Project</dt>
-                    <dd>{form.description}</dd>
-                  </dl>
-                </details>
                 <div className="form-grid">
                   {input("name", "Your name", "name")}
-                  {input("company", "Company / project", "organization")}
                   {input("email", "Email", "email", "email")}
                   {input("phone", "Phone / WhatsApp (optional)", "tel", "tel")}
+                  {input(
+                    "company",
+                    "Company / project (optional)",
+                    "organization",
+                  )}
                 </div>
                 <p className="small-copy">
-                  We’ll use these details to respond to your project enquiry.{" "}
+                  We’ll use these details to respond to your enquiry.{" "}
                   <Link href="/privacy">Read the privacy notice.</Link>
                 </p>
               </>
@@ -502,17 +382,19 @@ export function ProjectWizard({
               )}
               <button className="button" type="submit" disabled={pending}>
                 {pending
-                  ? "Saving your brief…"
-                  : step === 4
-                    ? process.env.NEXT_PUBLIC_STATIC_SITE === "true"
-                      ? "Prepare email brief"
-                      : "Send my brief"
+                  ? "Sending enquiry..."
+                  : step === lastStep
+                    ? "Send enquiry"
                     : "Continue"}
-                {step === 4 ? <Send size={16} /> : <ArrowRight size={17} />}
+                {step === lastStep ? (
+                  <Send size={16} />
+                ) : (
+                  <ArrowRight size={17} />
+                )}
               </button>
             </div>
             <div className="sr-only" role="status">
-              {pending ? "Saving your brief" : ""}
+              {pending ? "Sending enquiry" : ""}
             </div>
           </form>
         </>

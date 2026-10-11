@@ -84,6 +84,26 @@ test("content relationships resolve and draft publication is consistent", () => 
     42,
   );
 });
+test("short enquiries accept omitted business details without inventing answers", () => {
+  const parsed = inquirySchema.parse({
+    name: "Test Person",
+    email: "test@example.com",
+    description: "Need a website",
+    capabilities: [],
+    phone: "",
+    website: "",
+  });
+  assert.equal(parsed.intent, "Not sure yet");
+  for (const field of [
+    "company",
+    "industry",
+    "companySize",
+    "budget",
+    "timeline",
+  ] as const)
+    assert.equal(parsed[field], "");
+});
+
 test("inquiry validation rejects invalid contacts, injected capability IDs and oversized descriptions", () => {
   assert.ok(inquirySchema.safeParse(brief).success);
   for (const change of [

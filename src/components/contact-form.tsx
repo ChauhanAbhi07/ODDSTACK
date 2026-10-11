@@ -28,7 +28,8 @@ export function ContactForm() {
           <span className="muted">A better starting point.</span>
         </h2>
         <p style={{ marginTop: 25 }}>
-          No perfect brief required. Just a little ambition.
+          Two simple steps: tell us what you need, then leave your contact
+          details.
         </p>
         {engagement && (
           <p style={{ marginTop: 20 }}>Let’s discuss: {engagement}.</p>

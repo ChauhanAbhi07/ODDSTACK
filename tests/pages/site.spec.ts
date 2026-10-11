@@ -63,9 +63,19 @@ test("export serves public pages and assets under the GitHub project path", asyn
   expect(errors).toEqual([]);
 });
 
-test("static enquiry preserves selections and prepares email without posting to a backend", async ({
+test("static enquiry sends all details to Formspree in two steps", async ({
   page,
 }) => {
+  let submitted: Record<string, unknown> = {};
+  await page.route("https://formspree.io/f/mqpebnqe", async (route) => {
+    submitted = route.request().postDataJSON();
+    expect(route.request().headers().accept).toBe("application/json");
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: true }),
+    });
+  });
   const apiRequests: string[] = [];
   page.on("request", (request) => {
     if (request.url().includes("/api/")) apiRequests.push(request.url());
@@ -84,45 +94,92 @@ test("static enquiry preserves selections and prepares email without posting to 
   await page
     .getByRole("button", { name: "UI/UX & Product", exact: true })
     .click();
+  await expect(page.getByText("Step 1 of 2", { exact: true })).toBeVisible();
   await page
-    .getByRole("button", { name: "Build something", exact: true })
-    .click();
-  await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await page.getByLabel("Industry", { exact: true }).selectOption("Other");
-  await page.getByRole("button", { name: "Just me", exact: true }).click();
-  await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await page
-    .getByRole("button", { name: "Let's figure it out", exact: true })
-    .click();
-  await page
-    .getByRole("button", { name: "Just exploring", exact: true })
-    .click();
-  await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await page
-    .getByLabel("Your project, in your words")
+    .getByLabel("What do you need help with?")
     .fill("A new website for my local business with clear contact options.");
   await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await expect(page.getByText("Step 2 of 2", { exact: true })).toBeVisible();
   await page.getByLabel("Your name", { exact: true }).fill("Preview Visitor");
   await page
-    .getByLabel("Company / project", { exact: true })
+    .getByLabel("Company / project (optional)", { exact: true })
     .fill("Preview Business");
   await page.getByLabel("Email", { exact: true }).fill("visitor@example.com");
-  await page.getByRole("button", { name: "Prepare email brief" }).click();
+  await page.getByRole("button", { name: "Send enquiry" }).click();
   await expect(
-    page.getByRole("heading", { name: "Your brief is ready to email." }),
+    page.getByRole("heading", {
+      name: "Thanks! Your enquiry has been submitted.",
+    }),
   ).toBeVisible();
-  const href = await page
-    .getByRole("link", { name: "Open email app" })
-    .getAttribute("href");
-  expect(href).toContain("mailto:hello@oddestack.com?");
-  expect(decodeURIComponent(href!)).toContain("visitor@example.com");
-  await expect(page.getByRole("textbox")).toHaveValue(
-    /Technology, UI\/UX & Product/,
-  );
-  await expect(page.getByText(/Nothing has been sent yet/)).toBeVisible();
-  await page.getByRole("button", { name: "Edit my brief" }).click();
+  expect(submitted).toMatchObject({
+    name: "Preview Visitor",
+    email: "visitor@example.com",
+    company: "Preview Business",
+    message: "A new website for my local business with clear contact options.",
+    services: "Technology, UI/UX & Product",
+    subject: "New ODDESTACK website enquiry",
+    _gotcha: "",
+  });
+  expect(apiRequests).toEqual([]);
+  await page.getByRole("button", { name: "Start a new enquiry" }).click();
+  await expect(page.getByLabel("What do you need help with?")).toHaveValue("");
+});
+
+test("Formspree errors and network failures preserve details without showing success", async ({
+  page,
+}) => {
+  let attempts = 0;
+  await page.route("https://formspree.io/f/mqpebnqe", async (route) => {
+    attempts++;
+    if (attempts === 1)
+      return route.fulfill({
+        status: 422,
+        contentType: "application/json",
+        body: JSON.stringify({
+          errors: [
+            { field: "email", message: "Please use another email address." },
+          ],
+        }),
+      });
+    if (attempts === 2) return route.abort("failed");
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: true }),
+    });
+  });
+  await page.goto("/ODDSTACK/contact/");
+  await page
+    .getByLabel("What do you need help with?")
+    .fill("Please build a website for my shop.");
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await page.getByLabel("Your name", { exact: true }).fill("Preview Visitor");
+  await page.getByLabel("Email", { exact: true }).fill("visitor@example.com");
+  await page.getByRole("button", { name: "Send enquiry" }).click();
+  await expect(
+    page.getByText("Please use another email address.", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Thanks! Your enquiry has been submitted.",
+    }),
+  ).not.toBeVisible();
   await expect(page.getByLabel("Email", { exact: true })).toHaveValue(
     "visitor@example.com",
   );
-  expect(apiRequests).toEqual([]);
+  await page.getByLabel("Email", { exact: true }).fill("updated@example.com");
+  await page.getByRole("button", { name: "Send enquiry" }).click();
+  await expect(page.getByRole("main").getByRole("alert")).toContainText(
+    "We couldn't confirm your enquiry.",
+  );
+  await expect(page.getByLabel("Email", { exact: true })).toHaveValue(
+    "updated@example.com",
+  );
+  await page.getByRole("button", { name: "Send enquiry" }).click();
+  await expect(
+    page.getByRole("heading", {
+      name: "Thanks! Your enquiry has been submitted.",
+    }),
+  ).toBeVisible();
+  expect(attempts).toBe(3);
 });

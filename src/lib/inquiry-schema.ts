@@ -37,7 +37,9 @@ export const engagementNames = [
 ] as const;
 export const inquirySchema = z.object({
   engagement: z.enum(engagementNames).default(""),
-  intent: z.enum(intents, { error: "Choose what you want to do." }),
+  intent: z
+    .enum(intents, { error: "Choose what you want to do." })
+    .default("Not sure yet"),
   capabilities: z
     .array(
       z
@@ -49,23 +51,27 @@ export const inquirySchema = z.object({
     )
     .max(10)
     .transform((v) => [...new Set(v)]),
-  industry: z.enum(finderIndustries, { error: "Choose an industry." }),
-  companySize: z.enum(companySizes, { error: "Choose your company size." }),
-  budget: z.enum(budgets, {
-    error: "Choose a budget or the undecided option.",
-  }),
-  timeline: z.enum(timelines, { error: "Choose a timeline." }),
+  industry: z
+    .enum(["", ...finderIndustries], { error: "Choose an industry." })
+    .default(""),
+  companySize: z
+    .enum(["", ...companySizes], { error: "Choose your company size." })
+    .default(""),
+  budget: z
+    .enum(["", ...budgets], {
+      error: "Choose a budget or the undecided option.",
+    })
+    .default(""),
+  timeline: z
+    .enum(["", ...timelines], { error: "Choose a timeline." })
+    .default(""),
   description: z
     .string()
     .trim()
-    .min(20, "Add at least 20 characters about your project.")
+    .min(10, "Add a little more detail (at least 10 characters).")
     .max(4000),
   name: z.string().trim().min(2, "Add your name.").max(100),
-  company: z
-    .string()
-    .trim()
-    .min(2, "Add your company or project name.")
-    .max(150),
+  company: z.string().trim().max(150).default(""),
   email: z.email({ error: "Enter a valid email address." }).max(254),
   phone: z
     .string()

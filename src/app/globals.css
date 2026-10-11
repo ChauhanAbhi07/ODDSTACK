@@ -2130,7 +2130,7 @@ dialog::backdrop {
   margin-bottom: 30px;
 }
 .progress-track > span {
-  width: 20%;
+  flex: 1;
   height: 2px;
   background: #454d38;
 }

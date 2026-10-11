@@ -8,11 +8,15 @@ The repository is `ChauhanAbhi07/ODDSTACK`. Enable **Settings → Pages → Sour
 
 Expected address: `https://chauhanabhi07.github.io/ODDSTACK/`. This address is live only after GitHub reports a successful Pages deployment. Private repositories require a GitHub plan that supports Pages; changing a private repository to public requires the owner's decision because source files and commit history become visible.
 
-The public email links use `iamabhishekk2003@gmail.com`. To change it, set the repository Actions variable `CONTACT_EMAIL` and rerun the workflow. No email API key is needed for this static version.
+The public email links use `hello@oddestack.com`. The form submits to `https://formspree.io/f/mqpebnqe`; the recipient `iamabhishekk2003@gmail.com` is configured and verified in the Formspree dashboard, not sent from the browser. No email API key is needed.
 
 ## Enquiries
 
-The wizard validates the visitor's details and prepares an email draft. Visitors must open their email app and send it, or copy the full brief into webmail. It never posts to a backend, reports an automatic send or stores a copy. The Resend and PostgreSQL integrations remain in the source for a future server deployment.
+Visitors describe their request in step one and enter contact details in step two. **Send enquiry** posts their name, email, message, selected services and optional context directly to Formspree, without opening an email app. Formspree uses `email` for reply-to. A success message appears only after Formspree confirms acceptance; it does not prove inbox delivery. Failures preserve answers for a manual retry.
+
+The same Formspree flow is used in development and production. Automated tests intercept submissions; they must never send test data to the real inbox. The endpoint is public configuration, not a secret. Override `NEXT_PUBLIC_FORMSPREE_ENDPOINT` at build time if the form changes. The static exporter inherits this environment variable. Editing `.env.example` alone does not change a deployment.
+
+The Resend and PostgreSQL API integrations remain available in the source but are not used by the current form. GitHub Pages does not deploy those API routes.
 
 ## Build and check locally
 
@@ -28,6 +32,6 @@ The exporter uses a fresh ignored directory under `.pages-build`, copies only th
 
 `NEXT_PUBLIC_SITE_URL` supplies the public URL and repository base path at build time. The workflow reads it from GitHub's Pages configuration, so asset paths and canonical URLs use the actual Pages address. The browser checks assume the default `/ODDSTACK/` project path.
 
-Before adding automatic email delivery, move to a host that runs the full Next.js app or connect an external form service; GitHub Pages cannot execute API routes.
+Form notification recipients and spam settings are managed in Formspree. Keep the receiving inbox verified and monitor submission errors or quota limits there.
 
 References: [GitHub Pages availability](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages), [Pages deployment workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).

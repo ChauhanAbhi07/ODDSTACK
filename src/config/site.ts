@@ -6,6 +6,9 @@ export const site = {
       : "opengraph-image",
   url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "hello@oddestack.com",
+  inquiryEndpoint:
+    process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT ||
+    "https://formspree.io/f/mqpebnqe",
   description:
     "Websites, apps, social media and digital growth for local businesses and growing teams. Technology, creative and AI, connected by ODDESTACK.",
   showPricing: false,

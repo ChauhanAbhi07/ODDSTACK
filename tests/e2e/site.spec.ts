@@ -75,9 +75,18 @@ test("service navigation, FAQ and solution dialog work with keyboard", async ({
   ).not.toBeVisible();
   await expect(page.locator("body")).not.toHaveCSS("overflow", "hidden");
 });
-test("finder hands a valid stack to the complete project wizard", async ({
+test("finder selections and contact details survive the two-step enquiry", async ({
   page,
 }) => {
+  let payload: Record<string, unknown> = {};
+  await page.route("https://formspree.io/f/mqpebnqe", async (route) => {
+    payload = route.request().postDataJSON();
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: true }),
+    });
+  });
   await page.goto("/solutions");
   await page.getByRole("button", { name: "Real Estate", exact: true }).click();
   await page.getByRole("button", { name: "Next", exact: true }).click();
@@ -89,95 +98,102 @@ test("finder hands a valid stack to the complete project wizard", async ({
     .getByRole("button", { name: "Leads slip through the cracks", exact: true })
     .click();
   await page.getByRole("button", { name: "Find my stack" }).click();
-  await expect(page.getByText("Here's your starting stack.")).toBeVisible();
   await page.getByRole("link", { name: /build this stack/i }).click();
-  await expect(page).toHaveURL(/\/contact\?stack=/);
+  await expect(page.getByText("Step 1 of 2", { exact: true })).toBeVisible();
   await expect(
     page.getByRole("button", { name: "AI & Automation", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await expect(page.getByText("Choose what you want to do.")).toBeVisible();
-  await page
-    .getByRole("button", { name: "Grow something", exact: true })
-    .click();
-  await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await expect(page.getByLabel("Industry", { exact: true })).toHaveValue(
-    "Real Estate",
-  );
-  await page.getByRole("button", { name: "2–10 people", exact: true }).click();
-  await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await page
-    .getByRole("button", { name: "Let's figure it out", exact: true })
-    .click();
-  await page.getByRole("button", { name: "1–3 months", exact: true }).click();
-  await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await page
-    .getByLabel("Your project, in your words")
-    .fill(
-      "We want a connected real estate lead qualification and follow-up workflow.",
-    );
-  await page.getByRole("button", { name: "Back", exact: true }).click();
   await expect(
-    page.getByRole("button", { name: "1–3 months", exact: true }),
-  ).toHaveAttribute("aria-pressed", "true");
+    page.getByText("Add a little more detail (at least 10 characters).", {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await page
+    .getByLabel("What do you need help with?")
+    .fill("We want a connected real estate lead qualification workflow.");
   await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await expect(page.getByLabel("Your project, in your words")).toHaveValue(
+  await expect(page.getByText("Step 2 of 2", { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "How can we reach you?" }),
+  ).toBeFocused();
+  await page.getByRole("button", { name: "Send enquiry" }).click();
+  await expect(page.getByText("Add your name.", { exact: true })).toBeVisible();
+  await expect(
+    page.getByText("Enter a valid email address.", { exact: true }),
+  ).toBeVisible();
+  await page.getByLabel("Your name", { exact: true }).fill("Test Person");
+  await page.getByLabel("Email", { exact: true }).fill("test@example.com");
+  await page.getByRole("button", { name: "Back", exact: true }).click();
+  await expect(page.getByLabel("What do you need help with?")).toHaveValue(
     /connected real estate/,
   );
-  await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await page.getByLabel("Your name", { exact: true }).fill("Test Person");
-  await page
-    .getByLabel("Company / project", { exact: true })
-    .fill("Browser Test Project");
-  await page.getByLabel("Email", { exact: true }).fill("test@example.com");
-  await page.getByRole("button", { name: "Send my brief" }).click();
   await expect(
-    page.getByText(/saved locally for this development demo/),
-  ).toBeVisible();
-});
-test("wizard keeps answers when saving fails", async ({ page }) => {
-  await page.route("**/api/inquiries", (route) =>
-    route.fulfill({
-      status: 503,
-      contentType: "application/json",
-      body: JSON.stringify({
-        error: "Storage temporarily unavailable. Please retry.",
-      }),
-    }),
+    page.getByRole("button", { name: "AI & Automation", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await expect(page.getByLabel("Email", { exact: true })).toHaveValue(
+    "test@example.com",
   );
+  await page.getByRole("button", { name: "Send enquiry" }).click();
+  await expect(
+    page.getByRole("heading", {
+      name: "Thanks! Your enquiry has been submitted.",
+    }),
+  ).toBeVisible();
+  expect(payload).toMatchObject({
+    name: "Test Person",
+    email: "test@example.com",
+    industry: "Real Estate",
+    company: "",
+  });
+  expect(payload.services).toContain("AI & Automation");
+  expect(payload.message).toContain("connected real estate");
+});
+
+test("two-step enquiry keeps answers and retries a failed Formspree submission", async ({
+  page,
+}) => {
+  const submissions: unknown[] = [];
+  await page.route("https://formspree.io/f/mqpebnqe", async (route) => {
+    submissions.push(route.request().postDataJSON());
+    await route.fulfill({
+      status: submissions.length === 1 ? 503 : 200,
+      contentType: "application/json",
+      body: JSON.stringify(
+        submissions.length === 1
+          ? { error: "Storage temporarily unavailable. Please retry." }
+          : { ok: true },
+      ),
+    });
+  });
   await page.goto("/contact");
+  await expect(
+    page.getByRole("button", { name: "Technology", exact: true }),
+  ).not.toBeVisible();
   await page
-    .getByRole("button", { name: "Build something", exact: true })
-    .click();
-  await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await page.getByLabel("Industry", { exact: true }).selectOption("Other");
-  await page.getByRole("button", { name: "Just me", exact: true }).click();
-  await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await page
-    .getByRole("button", { name: "Let's figure it out", exact: true })
-    .click();
-  await page
-    .getByRole("button", { name: "Just exploring", exact: true })
-    .click();
-  await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await page
-    .getByLabel("Your project, in your words")
+    .getByLabel("What do you need help with?")
     .fill("A new customer portal with a connected operating workflow.");
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   await page.getByLabel("Your name", { exact: true }).fill("Test Person");
-  await page
-    .getByLabel("Company / project", { exact: true })
-    .fill("Demo Project");
   await page.getByLabel("Email", { exact: true }).fill("test@example.com");
-  await page.getByRole("button", { name: "Send my brief" }).click();
+  await page.getByRole("button", { name: "Send enquiry" }).click();
   await expect(
     page
       .getByRole("alert")
-      .filter({ hasText: "Storage temporarily unavailable" }),
+      .filter({ hasText: "We couldn't send your enquiry" }),
   ).toBeVisible();
   await expect(page.getByLabel("Email", { exact: true })).toHaveValue(
     "test@example.com",
   );
+  await page.getByRole("button", { name: "Send enquiry" }).click();
+  await expect(
+    page.getByRole("heading", {
+      name: "Thanks! Your enquiry has been submitted.",
+    }),
+  ).toBeVisible();
+  expect(submissions).toHaveLength(2);
+  expect(submissions[0]).toEqual(submissions[1]);
 });
 test("all 42 page URLs resolve and missing slugs return 404", async ({
   request,
@@ -255,8 +271,17 @@ test("mobile detail pages, form and reduced-motion navigation stay usable", asyn
     .analyze();
   expect(audit.violations).toEqual([]);
   await page
-    .getByRole("button", { name: "Build something", exact: true })
-    .click();
+    .getByLabel("What do you need help with?")
+    .fill("I need a website for my shop.");
   await page.getByRole("button", { name: "Continue", exact: true }).click();
-  await expect(page.getByLabel("Industry", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("Email", { exact: true })).toBeVisible();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth + 1,
+    ),
+  ).toBe(true);
+  const contactAudit = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+    .analyze();
+  expect(contactAudit.violations).toEqual([]);
 });
