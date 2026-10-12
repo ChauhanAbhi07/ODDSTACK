@@ -5,4 +5,5 @@ publish = "out"
 [build.environment]
 NODE_VERSION = "22"
 NETLIFY = "true"
+NEXT_PUBLIC_SITE_URL = "https://oddestack.com"
 NEXT_PUBLIC_CONTACT_EMAIL = "hello@oddestack.com"

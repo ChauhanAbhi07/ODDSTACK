@@ -53,9 +53,7 @@ async function main() {
   );
   const origin =
     process.env.NETLIFY === "true"
-      ? process.env.URL ||
-        process.env.DEPLOY_PRIME_URL ||
-        "https://oddestack.netlify.app"
+      ? "https://oddestack.com"
       : process.env.NEXT_PUBLIC_SITE_URL ||
         "https://chauhanabhi07.github.io/ODDSTACK";
   const siteUrl = new URL(origin);
