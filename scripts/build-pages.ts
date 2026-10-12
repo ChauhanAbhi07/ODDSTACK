@@ -2,6 +2,7 @@ import {
   cp,
   mkdir,
   mkdtemp,
+  rm,
   symlink,
   writeFile,
   readdir,
@@ -51,8 +52,12 @@ async function main() {
     "junction",
   );
   const origin =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    "https://chauhanabhi07.github.io/ODDSTACK";
+    process.env.NETLIFY === "true"
+      ? process.env.URL ||
+        process.env.DEPLOY_PRIME_URL ||
+        "https://oddestack.netlify.app"
+      : process.env.NEXT_PUBLIC_SITE_URL ||
+        "https://chauhanabhi07.github.io/ODDSTACK";
   const siteUrl = new URL(origin);
   const basePath = siteUrl.pathname.replace(/\/$/, "");
   const result = spawnSync(
@@ -113,6 +118,12 @@ async function main() {
   if (process.env.GITHUB_OUTPUT) {
     const { appendFile } = await import("node:fs/promises");
     await appendFile(process.env.GITHUB_OUTPUT, `path=${output}\n`);
+  }
+  if (process.env.NETLIFY === "true") {
+    const publishDir = path.join(root, "out");
+    await rm(publishDir, { recursive: true, force: true });
+    await cp(output, publishDir, { recursive: true });
+    console.log(`Netlify publish directory: ${publishDir}`);
   }
   console.log(`GitHub Pages export ready: ${output}`);
 }
