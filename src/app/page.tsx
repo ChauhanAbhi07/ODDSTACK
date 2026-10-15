@@ -7,6 +7,8 @@ import {
   Palette,
   Sparkles,
   Workflow,
+  Bot,
+  Target,
 } from "lucide-react";
 import { ButtonLink, Eyebrow, SectionTitle } from "@/components/ui";
 import { Reviews } from "@/components/reviews";
@@ -20,6 +22,23 @@ export const metadata = makeMetadata(
 );
 
 const services = [
+  {
+    slug: "ai-conversational-bots",
+    title: "AI conversational bots",
+    description:
+      "Answer questions, qualify enquiries and book the next step on your website, WhatsApp or social channels.",
+    detail: "Website · WhatsApp · Handoff to your team",
+    icon: Bot,
+    highlighted: true,
+  },
+  {
+    slug: "digital-marketing",
+    title: "Digital marketing",
+    description:
+      "Social, search and ads that bring the right people to your business and give them a clear next step.",
+    detail: "Social · Search · Google & Meta ads",
+    icon: Target,
+  },
   {
     slug: "technology",
     title: "Websites & online stores",
@@ -163,12 +182,20 @@ export default function Home() {
           description="Choose what you need today. We’ll connect the right people to make it happen."
         />
         <div className={styles.serviceGrid}>
-          {services.map(({ slug, title, description, detail, icon: Icon }) => (
+          {services.map(
+            ({ slug, title, description, detail, icon: Icon, highlighted }) => (
             <Link
               href={`/services/${slug}`}
-              className={styles.serviceCard}
+              className={
+                highlighted
+                  ? `${styles.serviceCard} ${styles.serviceCardHighlighted}`
+                  : styles.serviceCard
+              }
               key={slug}
             >
+              {highlighted && (
+                <span className={styles.highlightLabel}>Highlighted</span>
+              )}
               <Icon
                 size={25}
                 className={styles.serviceIcon}
@@ -181,7 +208,8 @@ export default function Home() {
                 Explore service <ArrowUpRight size={17} aria-hidden="true" />
               </span>
             </Link>
-          ))}
+            ),
+          )}
         </div>
         <div className={styles.sectionFoot}>
           <p>Need content, ecommerce, data or something more specific?</p>

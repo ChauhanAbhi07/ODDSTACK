@@ -1,6 +1,44 @@
 import type { Service } from "@/lib/content-types";
 export const services: Service[] = [
   {
+    slug: "ai-conversational-bots",
+    title: "AI conversational bots",
+    short: "A conversation that can do the next step.",
+    description:
+      "Bots for your website, WhatsApp and social channels that answer questions, qualify enquiries and book the next step. A person takes over when the conversation needs one.",
+    outcome:
+      "Reply instantly, and turn more conversations into real enquiries.",
+    featured: true,
+    items: [
+      "Website chatbots",
+      "WhatsApp bots",
+      "Instagram and social bots",
+      "Lead qualification",
+      "Appointment booking",
+      "FAQ and support replies",
+      "Handoff to a person",
+      "Multilingual conversations",
+    ],
+  },
+  {
+    slug: "digital-marketing",
+    title: "Digital marketing",
+    short: "Get found. Get enquiries.",
+    description:
+      "Social, search and ads that bring the right people to your business, then give them a clear next step. Campaigns connected to the page and the follow-up.",
+    outcome: "Turn attention into enquiries you can actually respond to.",
+    items: [
+      "Social media marketing",
+      "Search engine marketing",
+      "Google Ads",
+      "Meta ads",
+      "SEO",
+      "Local search",
+      "Landing pages",
+      "Campaign reporting",
+    ],
+  },
+  {
     slug: "ai-automation",
     title: "AI & Automation",
     short: "Less busywork. More possibility.",

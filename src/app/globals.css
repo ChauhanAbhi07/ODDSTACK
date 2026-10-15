@@ -2450,6 +2450,23 @@ textarea::placeholder {
   margin-top: auto;
   color: var(--lime);
 }
+.service-card.featured {
+  border-color: #8cb92a;
+  background: #c7ff3d;
+  color: #11130e;
+}
+.service-card.featured p,
+.service-card.featured .service-card-top {
+  color: #243014;
+}
+.service-card.featured > .text-link,
+.service-card.featured h2 {
+  color: #11130e;
+}
+.service-card.featured .tags span {
+  border-color: #11130e33;
+  color: #243014;
+}
 .detail-layout {
   display: grid;
   grid-template-columns: 1.5fr 1fr;

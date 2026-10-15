@@ -110,6 +110,17 @@
   border-color: var(--lime);
   background: #20231a;
 }
+.highlightLabel {
+  align-self: flex-start;
+  margin-bottom: 16px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #11130e;
+  color: #c7ff3d;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
 .serviceIcon {
   color: var(--lime);
   margin-bottom: 24px;
@@ -142,6 +153,26 @@
   border-top: 1px solid var(--line);
   font-size: 13px;
   color: var(--lime);
+}
+.serviceCard.serviceCardHighlighted,
+.serviceCard.serviceCardHighlighted:hover {
+  border-color: #8cb92a;
+  background: #c7ff3d;
+  color: #11130e;
+}
+.serviceCard.serviceCardHighlighted:hover {
+  background: #d4ff6a;
+}
+.serviceCard.serviceCardHighlighted p,
+.serviceCard.serviceCardHighlighted .serviceDetail {
+  color: #243014;
+}
+.serviceCard.serviceCardHighlighted .serviceIcon,
+.serviceCard.serviceCardHighlighted .cardLink {
+  color: #11130e;
+}
+.serviceCard.serviceCardHighlighted .cardLink {
+  border-top-color: #11130e33;
 }
 .sectionFoot {
   display: flex;

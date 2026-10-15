@@ -31,7 +31,9 @@ export default async function ServicePage({
   return (
     <>
       <PageIntro
-        label={service.title}
+        label={
+          service.featured ? "Highlighted capability" : service.title
+        }
         title={service.short}
         description={service.description}
       />

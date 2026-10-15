@@ -5,7 +5,7 @@ export const solutions: Solution[] = [
     title: "Generate more demand",
     description:
       "Make the right people notice. Then give them a reason to act.",
-    capabilities: ["growth", "content", "design", "data"],
+    capabilities: ["digital-marketing", "growth", "content", "design", "data"],
     approach:
       "Align your positioning, content and acquisition channels around a clear audience. Connect each campaign to a relevant landing experience and measure qualified interest.",
   },
@@ -15,8 +15,10 @@ export const solutions: Solution[] = [
     description: "Close the gap between interested and ready to buy.",
     capabilities: [
       "growth",
+      "digital-marketing",
       "design",
       "erp-business-systems",
+      "ai-conversational-bots",
       "ai-automation",
       "data",
     ],
@@ -27,7 +29,12 @@ export const solutions: Solution[] = [
     slug: "conversations",
     title: "Automate customer conversations",
     description: "Helpful answers. Real actions. A human when it matters.",
-    capabilities: ["ai-automation", "technology", "erp-business-systems"],
+    capabilities: [
+      "ai-conversational-bots",
+      "ai-automation",
+      "technology",
+      "erp-business-systems",
+    ],
     approach:
       "Ground agents in approved knowledge, connect them to business APIs, and define clear escalation rules. Start with a bounded workflow and evaluate real conversation outcomes.",
   },
@@ -56,7 +63,7 @@ export const solutions: Solution[] = [
     slug: "ecommerce",
     title: "Scale ecommerce",
     description: "Connect the brand, the store and everything after checkout.",
-    capabilities: ["commerce", "growth", "content", "operations"],
+    capabilities: ["commerce", "digital-marketing", "growth", "content", "operations"],
     approach:
       "Bring storefront experience, catalog operations, paid acquisition and retention into one plan. Track the complete buying journey instead of optimizing a single channel.",
   },

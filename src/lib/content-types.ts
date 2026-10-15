@@ -6,6 +6,7 @@ export interface Service {
   description: string;
   items: string[];
   outcome: string;
+  featured?: boolean;
 }
 export interface Solution {
   slug: string;

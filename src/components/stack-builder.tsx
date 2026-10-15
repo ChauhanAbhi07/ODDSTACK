@@ -5,6 +5,8 @@ import {
   ArrowUpRight,
   Plus,
   Minus,
+  Bot,
+  Target,
   AudioLines,
   Code2,
   Smartphone,
@@ -18,6 +20,8 @@ import {
 } from "lucide-react";
 import { services } from "@/data/services";
 const icons = [
+  Bot,
+  Target,
   AudioLines,
   Code2,
   Smartphone,

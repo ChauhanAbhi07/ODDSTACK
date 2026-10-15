@@ -19,9 +19,15 @@ export default function Services() {
       />
       <div className="container page-content service-grid">
         {services.map((s, i) => (
-          <article className="service-card" key={s.slug}>
+          <article
+            className={s.featured ? "service-card featured" : "service-card"}
+            key={s.slug}
+          >
             <div className="service-card-top">
-              <span>0{i + 1} / CAPABILITY</span>
+              <span>
+                {String(i + 1).padStart(2, "0")} / CAPABILITY
+                {s.featured ? " · Highlighted" : ""}
+              </span>
               <ArrowUpRight size={20} />
             </div>
             <h2>{s.title}</h2>

@@ -81,7 +81,7 @@ test("content relationships resolve and draft publication is consistent", () => 
       industries.length +
       caseStudies.length +
       articles.length,
-    42,
+    44,
   );
 });
 test("short enquiries accept omitted business details without inventing answers", () => {
